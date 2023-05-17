@@ -10,6 +10,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.wildeyechatapp.screens.LoginScreen
+import com.example.wildeyechatapp.screens.RegisterScreen
 import com.example.wildeyechatapp.ui.theme.WildEyeChatAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,7 +24,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+//                    Greeting("Android")
+//                    RegisterScreen()
+//                    LoginScreen()
+                    Navigation()
                 }
             }
         }
@@ -41,6 +46,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     WildEyeChatAppTheme {
-        Greeting("Android")
+//        RegisterScreen()
+       Navigation()
     }
 }

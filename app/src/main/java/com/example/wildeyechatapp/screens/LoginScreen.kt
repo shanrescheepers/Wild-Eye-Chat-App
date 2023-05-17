@@ -40,17 +40,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
+import androidx.core.content.ContextCompat.RegisterReceiverFlags
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier){
+
+fun LoginScreen(navToRegister:() -> Unit ,
+                modifier: Modifier = Modifier){
+
 //state variables
-  var email by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val titleColor = R.color.titleColor
 
 //    Text(text="Login Screen working")
-Column(modifier = Modifier
+    Column(modifier = Modifier
     .fillMaxSize()
     .padding(20.dp),
 
@@ -118,7 +122,7 @@ Spacer(modifier = Modifier.size(10.dp))
 
     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
 
-        TextButton(onClick = { /*TODO*/ }) {
+        TextButton(onClick = { navToRegister.invoke()}) {
             Text(text = "Need an account?",fontSize = 18.sp, )
         }
     }
@@ -130,6 +134,6 @@ Spacer(modifier = Modifier.size(10.dp))
 @Composable
 fun PreviewLoginScreen(){
     WildEyeChatAppTheme {
-        LoginScreen()
+        LoginScreen(navToRegister = {})
     }
 }
