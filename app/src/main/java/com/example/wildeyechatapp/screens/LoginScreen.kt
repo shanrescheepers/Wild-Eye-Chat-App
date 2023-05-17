@@ -11,11 +11,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -41,6 +43,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.core.content.ContextCompat.RegisterReceiverFlags
+import com.example.wildeyechatapp.ui.theme.BlackButton
+import com.example.wildeyechatapp.ui.theme.ButtonTextColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,13 +77,14 @@ Spacer(modifier = Modifier.size(10.dp))
     style = MaterialTheme.typography.displaySmall,
     fontSize = 24.sp,
     fontWeight = FontWeight.Medium,
-    color = MaterialTheme.colorScheme.primary,
+        color = BlackButton
     )
 
     Spacer(modifier = Modifier.size(20.dp))
 
     OutlinedTextField(
         value = email,
+        shape = RoundedCornerShape(15.dp),
         onValueChange = { email = it },
     label = {Text(text="Email")},
     leadingIcon = {
@@ -98,6 +103,7 @@ Spacer(modifier = Modifier.size(10.dp))
     OutlinedTextField(
         value = password,
         onValueChange = { password = it },
+        shape = RoundedCornerShape(15.dp),
         label = {Text(text="Password")},
         leadingIcon = {
             Icon(imageVector = Icons.Default.Lock,
@@ -112,10 +118,12 @@ Spacer(modifier = Modifier.size(10.dp))
     Spacer(modifier = Modifier.size(30.dp))
     Button(onClick = { /*TODO*/ }, modifier = Modifier
         .width(200.dp)
-        .padding(4.dp)) {
+        .padding(4.dp),colors = ButtonDefaults.buttonColors( BlackButton)) {
         Text(text = "Sign In",
             fontSize = 18.sp,
-            modifier = Modifier.padding(8.dp))
+
+            modifier = Modifier.padding(8.dp),color = ButtonTextColor
+        )
     }
 
     Spacer(modifier = Modifier.size(10.dp))
@@ -123,7 +131,7 @@ Spacer(modifier = Modifier.size(10.dp))
     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
 
         TextButton(onClick = { navToRegister.invoke()}) {
-            Text(text = "Need an account?",fontSize = 18.sp, )
+            Text(text = "Need an account?",fontSize = 18.sp,color = BlackButton  )
         }
     }
     }
