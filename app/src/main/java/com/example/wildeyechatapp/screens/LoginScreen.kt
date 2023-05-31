@@ -96,7 +96,7 @@ fun LoginScreen(navToRegister:() -> Unit ,
 
         Spacer(modifier = Modifier.size(10.dp))
         Card(colors = CardDefaults.cardColors(containerColor = BlockColor),
-            modifier = Modifier.height(130.dp).fillMaxWidth().padding(10.dp))
+            modifier = Modifier.height(150.dp).fillMaxWidth().padding(10.dp))
 
         {
             OutlinedTextField(
@@ -114,9 +114,9 @@ fun LoginScreen(navToRegister:() -> Unit ,
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 modifier = Modifier
-                    .fillMaxWidth().padding(horizontal = 8.dp)
-                    .height(50.dp),
-                textStyle = TextStyle(fontSize = 12.sp),
+                    .fillMaxWidth().padding(horizontal = 4.dp)
+                    .height(60.dp),
+                textStyle = TextStyle(fontSize = 10.sp),
         )
 
             OutlinedTextField(
@@ -133,8 +133,8 @@ fun LoginScreen(navToRegister:() -> Unit ,
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 modifier = Modifier
-                    .fillMaxWidth().padding(horizontal = 8.dp)
-                    .height(50.dp),
+                    .fillMaxWidth().padding(horizontal = 4.dp)
+                    .height(60.dp),
                 textStyle = TextStyle(fontSize = 12.sp),
 
                 )

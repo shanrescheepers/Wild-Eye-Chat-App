@@ -34,6 +34,7 @@ fun Navigation(
                     }
                 }
             }
+
         ) }
         //        My Register screen
         composable(route = AuthRoutes.Register.name){

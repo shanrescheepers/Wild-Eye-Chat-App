@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.wildeyechatapp.screens.ConversationScreen
 import com.example.wildeyechatapp.screens.LoginScreen
 import com.example.wildeyechatapp.screens.RegisterScreen
 import com.example.wildeyechatapp.ui.theme.BGcolor
@@ -33,7 +34,8 @@ class MainActivity : ComponentActivity() {
 //                    Greeting("Android")
 //                    RegisterScreen()
 //                    LoginScreen()
-                    Navigation()
+                      ConversationScreen()
+//                    Navigation()
                 }
             }
         }
@@ -54,5 +56,7 @@ fun GreetingPreview() {
     WildEyeChatAppTheme {
 //        RegisterScreen()
        Navigation()
+//        ConversationScreen()
+
     }
 }
