@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.wildeyechatapp.screens.ConversationScreen
 import com.example.wildeyechatapp.screens.LoginScreen
 import com.example.wildeyechatapp.screens.RegisterScreen
 
@@ -13,6 +14,11 @@ enum class AuthRoutes {
     Register
 }
 
+enum class HomeRoutes{
+    ConversationScreen,
+    Chat,
+    Profile
+}
 //gen navhost, ID navhost, it should use navcontroller
 @Composable
 fun Navigation(
@@ -20,7 +26,7 @@ fun Navigation(
 ) {
     NavHost(navController = navController,
 //        this will be splash
-        startDestination = AuthRoutes.Login.name){
+        startDestination = HomeRoutes.ConversationScreen.name){
 //        define all navigatuon screens
 
 //        My login screen
@@ -38,17 +44,24 @@ fun Navigation(
         ) }
         //        My Register screen
         composable(route = AuthRoutes.Register.name){
-    RegisterScreen(
-        navToLogin = {
-        navController.navigate(AuthRoutes.Login.name){
-            launchSingleTop = true
-            popUpTo(route = AuthRoutes.Register.name){
+        RegisterScreen(
+         navToLogin = {
+            navController.navigate(AuthRoutes.Login.name){
+              launchSingleTop = true
+              popUpTo(route = AuthRoutes.Register.name){
                 inclusive = true
-            }
+                   }
+                }
+             }
+           )
         }
-    }
-)
+//END
+//        My ConversationsScreen
+        composable(route = HomeRoutes.ConversationScreen.name){
+            ConversationScreen()
         }
 
+//        TODO: Create links to profile and chat screen(pass data
+//        Stup auth to prevent access to specific screens
     }
 }

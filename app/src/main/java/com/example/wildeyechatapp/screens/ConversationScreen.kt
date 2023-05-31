@@ -80,11 +80,11 @@ Column(
 //        Eagle LOGO
         Image(painter = painterResource(id = R.drawable.eagle),
             contentDescription = null,
-            modifier = Modifier
-                ,
+            modifier = Modifier.width(100.dp).height(100.dp)
+
 
             )
-        Spacer(modifier = Modifier.width(230.dp))
+        Spacer(modifier = Modifier.width(160.dp))
         
 //        Search Icon
 //        Image(painter = painterResource(id = R.drawable.search),
@@ -96,7 +96,7 @@ Column(
 //        Profile Picture
         Image(painter = painterResource(id = R.drawable.pfp),
             contentDescription = null,
-            modifier = Modifier
+            modifier = Modifier.width(80.dp).height(80.dp)
                 .padding(8.dp)
         )
     }
@@ -134,7 +134,7 @@ LazyRow(){
         item ->
         ConversationCard(ConversationPeople(
             name = "Shanre${item}",
-            image = "https://thumbs.dreamstime.com/b/mongoose-mammal-group-predators-pet-small-size-head-elongated-muzzle-rounded-ears-quite-long-tail-113780558.jpg"))
+            image = "https://miro.medium.com/v2/resize:fit:4800/format:webp/1*yKCRYzrnFkLivh_f8FtLfA.jpeg"))
     }
 }
     Row(
@@ -148,14 +148,18 @@ LazyRow(){
     ) {
 //Column(Modifier.verticalScroll(rememberScrollState()))
 
-        ConversationCard(ConversationPeople(
-            name = "Shanre",
-            image = "https://thumbs.dreamstime.com/b/mongoose-mammal-group-predators-pet-small-size-head-elongated-muzzle-rounded-ears-quite-long-tail-113780558.jpg"))
-        ConversationCard(ConversationPeople(
-            name = "Shanre",
-            image = "https://thumbs.dreamstime.com/b/mongoose-mammal-group-predators-pet-small-size-head-elongated-muzzle-rounded-ears-quite-long-tail-113780558.jpg"))
-
-
+//        ConversationCard(ConversationPeople(
+//            name = "Shanre",
+//        ))
+//        ConversationCard(ConversationPeople(
+//            name = "Shanre",
+//        ))
+//        ConversationCard(ConversationPeople(
+//            name = "Shanre",
+//        ))
+//        ConversationCard(ConversationPeople(
+//            name = "Shanre",
+//        ))
     }
 
 
@@ -186,6 +190,8 @@ fun ConversationCard(
                 .data(conversationPeople.image)
                 .crossfade(true).build()
                 ,
+                error= painterResource( R.drawable.ic_launcher_foreground),
+
                 contentDescription = conversationPeople.name,
 placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
 

@@ -34,8 +34,8 @@ class MainActivity : ComponentActivity() {
 //                    Greeting("Android")
 //                    RegisterScreen()
 //                    LoginScreen()
-                      ConversationScreen()
-//                    Navigation()
+//                      ConversationScreen()
+                    Navigation()
                 }
             }
         }
@@ -55,8 +55,8 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 fun GreetingPreview() {
     WildEyeChatAppTheme {
 //        RegisterScreen()
-       Navigation()
-//        ConversationScreen()
+//       Navigation()
+        ConversationScreen()
 
     }
 }
