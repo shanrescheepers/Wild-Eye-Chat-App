@@ -11,10 +11,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.wildeyechatapp.screens.LoginScreen
 import com.example.wildeyechatapp.screens.RegisterScreen
 import com.example.wildeyechatapp.ui.theme.BGcolor
+import com.example.wildeyechatapp.ui.theme.InputBorderColor
+import com.example.wildeyechatapp.ui.theme.TitleColor
 import com.example.wildeyechatapp.ui.theme.WildEyeChatAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,8 +26,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             WildEyeChatAppTheme {
                 // A surface container using the 'background' color from the theme
-                Box(
-                    modifier = Modifier.fillMaxSize().background(color = BGcolor),
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
 
                 ) {
 //                    Greeting("Android")

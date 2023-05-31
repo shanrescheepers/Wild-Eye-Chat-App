@@ -3,11 +3,14 @@ package com.example.wildeyechatapp.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -20,6 +23,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -44,10 +48,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import com.example.wildeyechatapp.ui.theme.BlackButton
+import com.example.wildeyechatapp.ui.theme.BlockColor
 import com.example.wildeyechatapp.ui.theme.ButtonTextColor
+import com.example.wildeyechatapp.ui.theme.InputFieldColor
 import com.example.wildeyechatapp.ui.theme.LightGrey
 import com.example.wildeyechatapp.ui.theme.TitleColor
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,93 +69,125 @@ fun RegisterScreen(navToLogin:() -> Unit ,
     var password by remember { mutableStateOf("") }
     val titleColor = R.color.titleColor
 
-//    Text(text="Login Screen working")
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(10.dp),
+//    Text(text="Login Screen working")modifier = Modifier
+    Column(
+            modifier = Modifier.background(InputFieldColor)
+        .fillMaxSize(),
+
 
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(painter = painterResource(id = R.drawable.logo),
             contentDescription = null,
             modifier = Modifier
-                .size(150.dp)
-                .padding(top = 20.dp))
+                .padding(8.dp)
+                .width(width = 260.dp)
+                .align(alignment = Alignment.CenterHorizontally),
 
-
-
+          )
 
 
         Text(
             text="Please fill your details below",
             style = MaterialTheme.typography.displaySmall,
-            fontSize = 24.sp,
+            fontSize = 16.sp,
             fontWeight = FontWeight.Medium,
             color = TitleColor,
         )
-
         Spacer(modifier = Modifier.size(8.dp))
-        // NAME
-        OutlinedTextField(
-            value = name,
-            onValueChange = { name = it },
-            shape = RoundedCornerShape(15.dp),
-            label = {Text(text="Name", color = LightGrey)},
-            leadingIcon = {
-                Icon(imageVector = Icons.Default.Person,
-                    contentDescription = null)
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(5.dp)
-        )
-// EMAIL
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            shape = RoundedCornerShape(15.dp),
-            label = {Text(text="Email", color = LightGrey)},
-            leadingIcon = {
-                Icon(imageVector = Icons.Default.Email,
-                    contentDescription = null)
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(5.dp)
-        )
-//STAND NUMBER
-        OutlinedTextField(
-            value = standNumber,
-            onValueChange = { standNumber = it },
-            shape = RoundedCornerShape(15.dp),
-            label = {Text(text="Stand Number", color = LightGrey)},
-            leadingIcon = {
-                Icon(imageVector = Icons.Default.Home,
-                    contentDescription = null)
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(5.dp)
-        )
-//PASSWORD
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            shape = RoundedCornerShape(15.dp),
-            label = {Text(text="Password", color = LightGrey)},
-            leadingIcon = {
-                Icon(imageVector = Icons.Default.Lock,
-                    contentDescription = null)
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(5.dp)
 
-        )
+
+        // NAME + CARD
+     Card(colors = CardDefaults.cardColors(containerColor = BlockColor),
+         modifier = Modifier.height(230.dp).fillMaxWidth().padding(10.dp))
+      {
+         OutlinedTextField(
+             value = name,
+             onValueChange = { name = it },
+
+             shape = RoundedCornerShape(15.dp),
+             label = {Text(text="Name",
+                 color = LightGrey,
+                 style = TextStyle(textAlign = TextAlign.Left))},
+
+             leadingIcon = {
+                 Icon(modifier = Modifier.size(20.dp),
+                     imageVector = Icons.Default.Person,
+                     contentDescription = null)
+             },
+             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+             modifier = Modifier
+                 .fillMaxWidth().padding(horizontal = 8.dp)
+                 .height(50.dp),
+             textStyle = TextStyle(fontSize = 12.sp),
+
+             )
+// EMAIL
+         OutlinedTextField(
+             value = email,
+             onValueChange = { email = it },
+             shape = RoundedCornerShape(15.dp),
+             label = {Text(text="Email",
+                 color = LightGrey,
+                 style = TextStyle(textAlign = TextAlign.End)
+             )},
+//            .align(alignment = Alignment.CenterHorizontally)
+             leadingIcon = {
+
+                 Icon(modifier = Modifier.size(20.dp),
+                     imageVector = Icons.Default.Email,
+                     contentDescription = null
+                 )
+
+
+             },
+             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+             modifier = Modifier
+                 .fillMaxWidth().padding(horizontal = 8.dp)
+                 .height(50.dp),
+             textStyle = TextStyle(fontSize = 12.sp),
+         )
+//STAND NUMBER
+         OutlinedTextField(
+             value = standNumber,
+             onValueChange = { standNumber = it },
+             shape = RoundedCornerShape(15.dp),
+             label = {Text(text="Stand Number",
+                 color = LightGrey,
+                 style = TextStyle(textAlign = TextAlign.End))},
+             leadingIcon = {
+                 Icon(modifier = Modifier.size(20.dp),
+                     imageVector = Icons.Default.Home,
+                     contentDescription = null)
+             },
+             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+             modifier = Modifier
+                 .fillMaxWidth().padding(horizontal = 8.dp)
+                 .height(50.dp),
+             textStyle = TextStyle(fontSize = 12.sp),
+         )
+//PASSWORD
+         OutlinedTextField(
+             value = password,
+             onValueChange = { password = it },
+             shape = RoundedCornerShape(15.dp),
+             label = {Text(text="Password",
+                 color = LightGrey,
+                 style = TextStyle(textAlign = TextAlign.End))},
+             leadingIcon = {
+                 Icon(modifier = Modifier.size(20.dp),
+                     imageVector = Icons.Default.Lock,
+                     contentDescription = null)
+             },
+             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+             modifier = Modifier
+                 .fillMaxWidth().padding(horizontal = 8.dp)
+                 .height(50.dp),
+             textStyle = TextStyle(fontSize = 12.sp),
+
+             )
+     }
+        Spacer(modifier = Modifier.size(20.dp))
         Button(onClick = { /*TODO*/ }, modifier = Modifier
             .width(200.dp)
             .padding(4.dp), colors = ButtonDefaults.buttonColors( BlackButton)) {
