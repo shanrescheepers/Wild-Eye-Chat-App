@@ -40,10 +40,61 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
+import com.example.wildeyechatapp.R.drawable.smalllogopng
+import com.example.wildeyechatapp.ui.theme.InputFieldColor
 
 @Composable
 fun ConversationScreen(modifier: Modifier = Modifier){
+Column(
+    horizontalAlignment = Alignment.CenterHorizontally,
+    modifier = Modifier.background(InputFieldColor)
+        .fillMaxSize()) {
+//    first row
+    Spacer(modifier = Modifier.size(20.dp))
 
+    Row(
+    modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Start,
+//        horizontalArrangement = Arrangement.Center
+    ) {
+
+//        Eagle LOGO
+        Image(painter = painterResource(id = R.drawable.eagle),
+            contentDescription = null,
+            modifier = Modifier
+                ,
+
+            )
+        Spacer(modifier = Modifier.width(180.dp))
+        
+//        Search Icon
+        Image(painter = painterResource(id = R.drawable.search),
+            contentDescription = null,
+            modifier = Modifier
+                .padding(8.dp)
+        )
+
+//        Profile Picture
+        Image(painter = painterResource(id = R.drawable.pfp),
+            contentDescription = null,
+            modifier = Modifier
+                .padding(8.dp)
+        )
+    }
+
+    Spacer(modifier = Modifier.size(20.dp))
+//    Welcome Second row
+    Row() {
+        Text(text = "Hi")
+    }
+//Third Row
+    Spacer(modifier = Modifier.size(20.dp))
+    Row() {
+        Text(text = "Hi")
+        Spacer(modifier = Modifier.size(20.dp))
+        Text(text = "Hi")
+    }
+}
 }
 
 @Preview(showSystemUi = true)
