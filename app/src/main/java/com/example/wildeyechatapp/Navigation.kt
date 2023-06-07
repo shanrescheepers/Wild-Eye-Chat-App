@@ -1,4 +1,5 @@
 package com.example.wildeyechatapp
+import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -20,11 +21,13 @@ enum class HomeRoutes{
     Profile
 }
 //gen navhost, ID navhost, it should use navcontroller
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun Navigation(
     navController: NavHostController = rememberNavController()
 ) {
-    NavHost(navController = navController,
+    NavHost(
+        navController = navController,
 //        this will be splash
         startDestination = HomeRoutes.ConversationScreen.name){
 //        define all navigatuon screens

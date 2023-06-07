@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
 //                    RegisterScreen()
 //                    LoginScreen()
 //                      ConversationScreen()
-                    Navigation()
+//                    Navigation()
                 }
             }
         }
@@ -56,6 +56,7 @@ fun GreetingPreview() {
     WildEyeChatAppTheme {
 //        RegisterScreen()
 //       Navigation()
+//        LoginScreen()
         ConversationScreen()
 
     }
