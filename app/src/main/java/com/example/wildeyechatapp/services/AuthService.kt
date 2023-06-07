@@ -50,8 +50,8 @@ class AuthService {
         Firebase.auth
             .signInWithEmailAndPassword(email, password)
             .addOnCompleteListener{
-                if(it.isComplete){ //if successfully created
-                    Log.d("Login: ",  "successful",);
+                if (it.isSuccessful) { //if successfully created
+                    Log.d("Login: ", "successful")
                     isCompleted.invoke(true)
                 } else {
                     Log.d("Login: error", it.exception?.localizedMessage.toString())

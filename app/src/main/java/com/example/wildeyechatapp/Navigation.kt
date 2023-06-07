@@ -9,6 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.wildeyechatapp.screens.ConversationScreen
 import com.example.wildeyechatapp.screens.LoginScreen
 import com.example.wildeyechatapp.screens.RegisterScreen
+import com.example.wildeyechatapp.viewModels.AuthViewModel
 
 enum class AuthRoutes {
     Login,
@@ -24,12 +25,13 @@ enum class HomeRoutes{
 @SuppressLint("SuspiciousIndentation")
 @Composable
 fun Navigation(
+    authViewModel: AuthViewModel,
     navController: NavHostController = rememberNavController()
 ) {
     NavHost(
         navController = navController,
 //        this will be splash
-        startDestination = HomeRoutes.ConversationScreen.name){
+        startDestination = AuthRoutes.Login.name){
 //        define all navigatuon screens
 
 //        My login screen
@@ -42,8 +44,7 @@ fun Navigation(
                         inclusive = true
                     }
                 }
-            }
-          )
+            }, authViewModel = authViewModel)
         }
         //        My Register screen
         composable(route = AuthRoutes.Register.name){

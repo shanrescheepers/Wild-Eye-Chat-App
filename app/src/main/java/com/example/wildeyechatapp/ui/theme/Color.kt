@@ -3,6 +3,8 @@ import androidx.compose.ui.graphics.Color
 
 val BGcolor = Color(0xFFE8E2D6)
 val InputBorderColor = Color(0xFFB0977E)
+val warningColor = Color(0xFFDA8E2E)
+val backgroundColor=  Color(0xFFBDA689)
 val InputFieldColor = Color(0xFFE8E2D6)
 val BlockColor = Color(0xFFB0977E)
 val TitleColor = Color(0xFF1D1D1D)

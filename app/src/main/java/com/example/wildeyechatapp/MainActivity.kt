@@ -1,6 +1,8 @@
 package com.example.wildeyechatapp
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+//import androidx.compose.ui.platform.setContent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -13,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.wildeyechatapp.screens.ConversationScreen
 import com.example.wildeyechatapp.screens.LoginScreen
 import com.example.wildeyechatapp.screens.RegisterScreen
@@ -20,22 +23,26 @@ import com.example.wildeyechatapp.ui.theme.BGcolor
 import com.example.wildeyechatapp.ui.theme.InputBorderColor
 import com.example.wildeyechatapp.ui.theme.TitleColor
 import com.example.wildeyechatapp.ui.theme.WildEyeChatAppTheme
+import com.example.wildeyechatapp.viewModels.AuthViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+
+            val authViewModel: AuthViewModel = viewModel(modelClass = AuthViewModel::class.java)
             WildEyeChatAppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
 
                 ) {
+                    Navigation(authViewModel = authViewModel)
 //                    Greeting("Android")
 //                    RegisterScreen()
 //                    LoginScreen()
 //                      ConversationScreen()
-//                    Navigation()
+
                 }
             }
         }
@@ -43,7 +50,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
+
 fun Greeting(name: String, modifier: Modifier = Modifier) {
+
     Text(
         text = "Hello $name!",
         modifier = modifier
@@ -57,7 +66,7 @@ fun GreetingPreview() {
 //        RegisterScreen()
 //       Navigation()
 //        LoginScreen()
-        ConversationScreen()
+//        ConversationScreen()
 
     }
 }
