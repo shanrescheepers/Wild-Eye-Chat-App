@@ -28,10 +28,16 @@ fun Navigation(
     authViewModel: AuthViewModel,
     navController: NavHostController = rememberNavController()
 ) {
+    val startingScreen = if(authViewModel.hasUser){
+        HomeRoutes.ConversationScreen.name
+    } else {
+        AuthRoutes.Login.name
+    }
+
     NavHost(
         navController = navController,
 //        this will be splash
-        startDestination = AuthRoutes.Login.name){
+        startDestination = startingScreen){
 //        define all navigatuon screens
 
 //        My login screen
@@ -44,7 +50,16 @@ fun Navigation(
                         inclusive = true
                     }
                 }
-            }, authViewModel = authViewModel)
+            },
+            navToHome = {
+                navController.navigate(HomeRoutes.ConversationScreen.name) {
+                    launchSingleTop = true
+                    popUpTo(route =AuthRoutes.Login.name){
+                        inclusive = true
+                    }
+                }
+            },
+            authViewModel = authViewModel)
         }
         //        My Register screen
         composable(route = AuthRoutes.Register.name){
@@ -56,8 +71,16 @@ fun Navigation(
                 inclusive = true
                    }
                 }
-             }
-           )
+             },
+            navToHome = {
+                navController.navigate(HomeRoutes.ConversationScreen.name) {
+                    launchSingleTop = true
+                    popUpTo(route =AuthRoutes.Register.name){
+                        inclusive = true
+                    }
+                }
+            },
+            authViewModel = authViewModel)
         }
 //END
 //        My ConversationsScreen

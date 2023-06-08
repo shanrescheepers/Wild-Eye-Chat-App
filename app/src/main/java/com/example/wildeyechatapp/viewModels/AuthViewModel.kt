@@ -18,7 +18,7 @@ class AuthViewModel(
     private val authService: AuthService = AuthService()
     ): ViewModel() {
     val currentUser = authService.currentUser
-    val hasUser: Boolean = authService.hasUser()
+    val hasUser: Boolean get() = authService.hasUser()
 
     // Instance of our state values
     var authUiState by mutableStateOf(AuthUiState())
@@ -44,6 +44,7 @@ class AuthViewModel(
 
 //    execute register func
     fun createNewUser(context: Context) = viewModelScope.launch {
+        authUiState = authUiState.copy(errorMessage = "")
         try {
         //for validation
             if(authUiState.registerUsername.isBlank() || authUiState.registerEmail.isBlank()
@@ -68,6 +69,7 @@ class AuthViewModel(
                         Toast.makeText(context, "Registration Failed!",
                             Toast.LENGTH_SHORT).show()
                         authUiState =  authUiState.copy(authSuccess = false)
+                        authUiState = authUiState.copy(errorMessage = "Invalid Email/Password")
                     }
                 }
             }
@@ -81,6 +83,7 @@ class AuthViewModel(
 
     // execute login func
     fun loginUser(context: Context) = viewModelScope.launch {
+        authUiState = authUiState.copy(errorMessage = "")
         try {
             //for validation
             if(authUiState.loginEmail.isBlank() || authUiState.loginPassword.isBlank()){
@@ -102,6 +105,7 @@ class AuthViewModel(
                         Toast.makeText(context, "Login Failed!",
                             Toast.LENGTH_SHORT).show()
                         authUiState =  authUiState.copy(authSuccess = false)
+                        authUiState = authUiState.copy(errorMessage = "Invalid Email/Password")
                     }
                 }
             }

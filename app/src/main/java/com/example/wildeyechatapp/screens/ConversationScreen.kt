@@ -61,7 +61,12 @@ import com.example.wildeyechatapp.models.ConversationPeople
 import com.example.wildeyechatapp.ui.theme.InputFieldColor
 
 @Composable
-fun ConversationScreen(modifier: Modifier = Modifier){
+fun ConversationScreen(
+
+
+    modifier: Modifier = Modifier
+
+){
 Column(
     horizontalAlignment = Alignment.CenterHorizontally,
     modifier = Modifier

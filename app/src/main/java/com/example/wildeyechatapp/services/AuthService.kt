@@ -30,7 +30,7 @@ class AuthService {
         Firebase.auth
             .createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener{
-                if(it.isComplete){ //if successfully created
+                if(it.isSuccessful){ //if successfully created
                     Log.d("Registered a new user successfully!", it.result.user?.uid.toString());
                     it.result.user?.uid?.let { it1 -> createdUserSuccessfully.invoke(it1) }
                 } else {

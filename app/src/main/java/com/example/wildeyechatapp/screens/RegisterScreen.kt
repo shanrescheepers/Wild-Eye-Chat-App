@@ -57,24 +57,34 @@ import com.example.wildeyechatapp.ui.theme.LightGrey
 import com.example.wildeyechatapp.ui.theme.TitleColor
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
+import com.example.wildeyechatapp.ui.theme.warningColor
+import com.example.wildeyechatapp.viewModels.AuthUiState
+import com.example.wildeyechatapp.viewModels.AuthViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterScreen(navToLogin:() -> Unit ,
-                   modifier: Modifier = Modifier){
-//state variables
-    var name by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var standNumber by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    val titleColor = R.color.titleColor
+fun RegisterScreen(
 
+    navToLogin:() -> Unit,
+    navToHome:() -> Unit,
+    authViewModel : AuthViewModel,
+//    authViewModel: AuthViewModel? = null,
+    modifier: Modifier = Modifier){
+   val authUiState :AuthUiState? = authViewModel?.authUiState
+    val context = LocalContext.current
+    val error = authUiState?.errorMessage != null
+//state variables
+//    var name by remember { mutableStateOf("") }
+//    var email by remember { mutableStateOf("") }
+//    var standNumber by remember { mutableStateOf("") }
+//    var password by remember { mutableStateOf("") }
+    val titleColor = R.color.titleColor
 //    Text(text="Login Screen working")modifier = Modifier
     Column(
             modifier = Modifier.background(InputFieldColor)
         .fillMaxSize(),
-
-
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(painter = painterResource(id = R.drawable.logo),
@@ -82,10 +92,7 @@ fun RegisterScreen(navToLogin:() -> Unit ,
             modifier = Modifier
                 .padding(8.dp)
                 .width(width = 260.dp)
-                .align(alignment = Alignment.CenterHorizontally),
-
-          )
-
+                .align(alignment = Alignment.CenterHorizontally),)
 
         Text(
             text="Please fill your details below",
@@ -95,52 +102,45 @@ fun RegisterScreen(navToLogin:() -> Unit ,
             color = TitleColor,
         )
         Spacer(modifier = Modifier.size(8.dp))
-
-
+        if (error) {
+            Text(
+                text = authUiState?.errorMessage ?: "",
+                color = warningColor
+            )
+        }
         // NAME + CARD
      Card(colors = CardDefaults.cardColors(containerColor = BlockColor),
          modifier = Modifier.height(230.dp).fillMaxWidth().padding(10.dp))
       {
          OutlinedTextField(
-             value = name,
-             onValueChange = { name = it },
-
+             value = authUiState?.registerUsername ?: "",
+             onValueChange = { authViewModel?.handleInputStateChanges("registerUsername", it)},
              shape = RoundedCornerShape(15.dp),
              label = {Text(text="Name",
                  color = LightGrey,
                  style = TextStyle(textAlign = TextAlign.Left))},
-
              leadingIcon = {
                  Icon(modifier = Modifier.size(20.dp),
                      imageVector = Icons.Default.Person,
-                     contentDescription = null)
-             },
+                     contentDescription = null) },
              keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
              modifier = Modifier
                  .fillMaxWidth().padding(horizontal = 8.dp)
                  .height(50.dp),
-             textStyle = TextStyle(fontSize = 12.sp),
-
-             )
+             textStyle = TextStyle(fontSize = 12.sp),)
 // EMAIL
          OutlinedTextField(
-             value = email,
-             onValueChange = { email = it },
+             value = authUiState?.registerEmail ?: "",
+             onValueChange = { authViewModel?.handleInputStateChanges("registerEmail", it)},
              shape = RoundedCornerShape(15.dp),
              label = {Text(text="Email",
                  color = LightGrey,
                  style = TextStyle(textAlign = TextAlign.End)
              )},
-//            .align(alignment = Alignment.CenterHorizontally)
              leadingIcon = {
-
                  Icon(modifier = Modifier.size(20.dp),
                      imageVector = Icons.Default.Email,
-                     contentDescription = null
-                 )
-
-
-             },
+                     contentDescription = null) },
              keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
              modifier = Modifier
                  .fillMaxWidth().padding(horizontal = 8.dp)
@@ -149,8 +149,8 @@ fun RegisterScreen(navToLogin:() -> Unit ,
          )
 //STAND NUMBER
          OutlinedTextField(
-             value = standNumber,
-             onValueChange = { standNumber = it },
+             value = authUiState?.registerStandNumber ?: "",
+             onValueChange = { authViewModel?.handleInputStateChanges("registerStandNumber", it)},
              shape = RoundedCornerShape(15.dp),
              label = {Text(text="Stand Number",
                  color = LightGrey,
@@ -158,8 +158,7 @@ fun RegisterScreen(navToLogin:() -> Unit ,
              leadingIcon = {
                  Icon(modifier = Modifier.size(20.dp),
                      imageVector = Icons.Default.Home,
-                     contentDescription = null)
-             },
+                     contentDescription = null) },
              keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
              modifier = Modifier
                  .fillMaxWidth().padding(horizontal = 8.dp)
@@ -168,8 +167,8 @@ fun RegisterScreen(navToLogin:() -> Unit ,
          )
 //PASSWORD
          OutlinedTextField(
-             value = password,
-             onValueChange = { password = it },
+             value = authUiState?.registerPassword ?: "",
+             onValueChange = { authViewModel?.handleInputStateChanges("registerPassword", it)},
              shape = RoundedCornerShape(15.dp),
              label = {Text(text="Password",
                  color = LightGrey,
@@ -177,18 +176,17 @@ fun RegisterScreen(navToLogin:() -> Unit ,
              leadingIcon = {
                  Icon(modifier = Modifier.size(20.dp),
                      imageVector = Icons.Default.Lock,
-                     contentDescription = null)
-             },
+                     contentDescription = null) },
              keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
              modifier = Modifier
                  .fillMaxWidth().padding(horizontal = 8.dp)
                  .height(50.dp),
-             textStyle = TextStyle(fontSize = 12.sp),
-
-             )
+             textStyle = TextStyle(fontSize = 12.sp),)
      }
         Spacer(modifier = Modifier.size(20.dp))
-        Button(onClick = { /*TODO*/ }, modifier = Modifier
+        Button(onClick = {
+                         authViewModel.createNewUser(context = context)
+                         }, modifier = Modifier
             .width(200.dp)
             .padding(4.dp), colors = ButtonDefaults.buttonColors( BlackButton)) {
             Text(text = "REGISTER",
@@ -196,21 +194,23 @@ fun RegisterScreen(navToLogin:() -> Unit ,
                 modifier = Modifier.padding(8.dp), color = ButtonTextColor)
         }
 
-
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
-
             TextButton(onClick = { navToLogin.invoke()}, ) {
                 Text(text = "Have an account?",fontSize = 18.sp, color = BlackButton )
             }
         }
     }
-
+    LaunchedEffect(key1 = authViewModel?.hasUser){
+        if(authViewModel.hasUser ){
+            navToHome.invoke()
+        }
+    }
 }
 
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewRegisterScreen(){
     WildEyeChatAppTheme {
-        RegisterScreen(navToLogin = {})
+        RegisterScreen(navToLogin = {},navToHome = {}, authViewModel = AuthViewModel())
     }
 }

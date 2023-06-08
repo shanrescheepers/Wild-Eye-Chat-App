@@ -33,6 +33,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -71,6 +72,7 @@ fun LoginScreen(
 
     authViewModel: AuthViewModel? = null,
     navToRegister:() -> Unit,
+    navToHome:()-> Unit,
     modifier: Modifier = Modifier){
 
 
@@ -141,7 +143,9 @@ fun LoginScreen(
                     .padding(16.dp)
             ) {
 
-                Column(modifier = Modifier.padding(20.dp).padding(start = 2.dp)) {
+                Column(modifier = Modifier
+                    .padding(20.dp)
+                    .padding(start = 2.dp)) {
                     Box(
                         modifier = Modifier
                             .background((backgroundColor), shape = RoundedCornerShape(8.dp))
@@ -249,47 +253,6 @@ fun LoginScreen(
                 }
             }
         }
-//
-
-//        }
-
-//        OutlinedTextField(
-//            value = email,
-//            shape = RoundedCornerShape(15.dp),
-//            onValueChange = { email = it },
-//            label = { Text(text = "Email") },
-//            leadingIcon = {
-//                Icon(
-//                    imageVector = Icons.Default.Email,
-//                    contentDescription = null
-//                )
-//            },
-//            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(5.dp)
-//        )
-//
-//
-////    Password
-//
-//        OutlinedTextField(
-//            value = password,
-//            onValueChange = { password = it },
-//            shape = RoundedCornerShape(15.dp),
-//            label = { Text(text = "Password") },
-//            leadingIcon = {
-//                Icon(
-//                    imageVector = Icons.Default.Lock,
-//                    contentDescription = null
-//                )
-//            },
-//            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(5.dp)
-//
-//        )
         Spacer(modifier = Modifier.size(30.dp))
         Spacer(modifier = Modifier.size(30.dp))
         Button(
@@ -324,12 +287,17 @@ fun LoginScreen(
         window?.decorView?.systemUiVisibility =
             view.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
     }
+    LaunchedEffect(key1 = authViewModel?.hasUser){
+        if(authViewModel?.hasUser ==  true ){
+            navToHome.invoke()
+        }
+    }
 }
-
+//TODO: Loaing handler and navigate to hompage when succesfully logged in
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewLoginScreen(){
     WildEyeChatAppTheme {
-        LoginScreen(navToRegister = {})
+        LoginScreen(navToRegister = {}, navToHome = {}, authViewModel = AuthViewModel())
     }
 }
