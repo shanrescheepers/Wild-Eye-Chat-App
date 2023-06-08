@@ -19,9 +19,9 @@ class AuthService {
 
 //    Register functionality
   suspend  fun registerNewUser(
-    name: String,
     email: String,
     standNumber: String,
+    name: String,
     password: String,
 
     createdUserSuccessfully:(String)-> Unit
@@ -32,7 +32,8 @@ class AuthService {
             .addOnCompleteListener{
                 if(it.isSuccessful){ //if successfully created
                     Log.d("Registered a new user successfully!", it.result.user?.uid.toString());
-                    it.result.user?.uid?.let { it1 -> createdUserSuccessfully.invoke(it1) }
+                    it.result.user?.uid?.let {
+                            it1 -> createdUserSuccessfully.invoke(it1) }
                 } else {
                     Log.d("Error occurred when trying to register a user", it.exception?.localizedMessage.toString())
                     createdUserSuccessfully.invoke("");

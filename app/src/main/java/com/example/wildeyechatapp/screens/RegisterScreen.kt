@@ -159,7 +159,7 @@ fun RegisterScreen(
                  Icon(modifier = Modifier.size(20.dp),
                      imageVector = Icons.Default.Home,
                      contentDescription = null) },
-             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
              modifier = Modifier
                  .fillMaxWidth().padding(horizontal = 8.dp)
                  .height(50.dp),
@@ -185,7 +185,7 @@ fun RegisterScreen(
      }
         Spacer(modifier = Modifier.size(20.dp))
         Button(onClick = {
-                         authViewModel.createNewUser(context = context)
+                         authViewModel.createNewUser(context)
                          }, modifier = Modifier
             .width(200.dp)
             .padding(4.dp), colors = ButtonDefaults.buttonColors( BlackButton)) {

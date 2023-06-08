@@ -46,21 +46,20 @@ class AuthViewModel(
     fun createNewUser(context: Context) = viewModelScope.launch {
         authUiState = authUiState.copy(errorMessage = "")
         try {
-        //for validation
             if(authUiState.registerUsername.isBlank() || authUiState.registerEmail.isBlank()
                 || authUiState.registerStandNumber.isBlank() || authUiState.registerPassword.isBlank()){
                 authUiState = authUiState.copy(errorMessage = "Please fill in all the fields")
             } else {
                 authUiState = authUiState.copy(isLoading = true)
-                // Als wat WECA nodig het
                 authService.registerNewUser(
+
                     authUiState.registerEmail,
                     authUiState.registerStandNumber,
                     authUiState.registerUsername,
                     authUiState.registerPassword,
                 ){userId->
                     if (userId.isNotBlank()){
-                       Log.d("REgister success", userId)
+                       Log.d("Register success", userId)
                         Toast.makeText(context, "Registration Complete!",
                         Toast.LENGTH_SHORT).show()
                         authUiState =  authUiState.copy(authSuccess = true)

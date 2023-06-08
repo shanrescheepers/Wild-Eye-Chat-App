@@ -64,14 +64,15 @@ fun Navigation(
         //        My Register screen
         composable(route = AuthRoutes.Register.name){
         RegisterScreen(
-         navToLogin = {
-            navController.navigate(AuthRoutes.Login.name){
-              launchSingleTop = true
-              popUpTo(route = AuthRoutes.Register.name){
-                inclusive = true
-                   }
+            navToLogin = {
+                navController.navigate(AuthRoutes.Login.name){
+                    launchSingleTop = true
+                    popUpTo(route = AuthRoutes.Register.name){
+                        inclusive = true
+                    }
                 }
-             },
+            },
+
             navToHome = {
                 navController.navigate(HomeRoutes.ConversationScreen.name) {
                     launchSingleTop = true
@@ -79,8 +80,7 @@ fun Navigation(
                         inclusive = true
                     }
                 }
-            },
-            authViewModel = authViewModel)
+            },    authViewModel = authViewModel)
         }
 //END
 //        My ConversationsScreen
