@@ -4,8 +4,10 @@ import android.widget.HorizontalScrollView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -18,6 +20,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -54,19 +57,26 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.ViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.wildeyechatapp.R.drawable.smalllogopng
 import com.example.wildeyechatapp.models.ConversationPeople
 import com.example.wildeyechatapp.ui.theme.InputFieldColor
+import com.example.wildeyechatapp.ui.theme.backgroundColor
+import com.example.wildeyechatapp.viewModels.ConversationsViewModel
 
 @Composable
 fun ConversationScreen(
-
-
+    onNavToProfile: () -> Unit,
+    viewModel: ConversationsViewModel = ConversationsViewModel(),
     modifier: Modifier = Modifier
 
+
 ){
+    val allConversations = viewModel?.convoList ?: listOf<ConversationPeople>()
+
+
 Column(
     horizontalAlignment = Alignment.CenterHorizontally,
     modifier = Modifier
@@ -85,7 +95,9 @@ Column(
 //        Eagle LOGO
         Image(painter = painterResource(id = R.drawable.eagle),
             contentDescription = null,
-            modifier = Modifier.width(100.dp).height(100.dp)
+            modifier = Modifier
+                .width(100.dp)
+                .height(100.dp)
 
 
             )
@@ -101,7 +113,9 @@ Column(
 //        Profile Picture
         Image(painter = painterResource(id = R.drawable.pfp),
             contentDescription = null,
-            modifier = Modifier.width(80.dp).height(80.dp)
+            modifier = Modifier
+                .width(80.dp)
+                .height(80.dp)
                 .padding(8.dp)
         )
     }
@@ -132,14 +146,27 @@ Column(
             .padding(horizontal = 10.dp)
         )
     }
+  Box(
+      modifier
+          .padding(5.dp)
+          .background(backgroundColor)
+          .clickable {
+              onNavToProfile.invoke()
+          }){
+      Text(text = "Profile")
+  }
+
+
     Spacer(modifier = Modifier.size(20.dp))
 
 LazyRow(){
-    items(10){
-        item ->
-        ConversationCard(ConversationPeople(
-            name = "Shanre${item}",
-            image = "https://miro.medium.com/v2/resize:fit:4800/format:webp/1*yKCRYzrnFkLivh_f8FtLfA.jpeg"))
+    items(allConversations){
+            conversation ->
+        ConversationCard(
+            ConversationPeople(
+                title = conversation.title,
+                image = conversation.image)
+        )
     }
 }
     Row(
@@ -197,7 +224,7 @@ fun ConversationCard(
                 ,
                 error= painterResource( R.drawable.ic_launcher_foreground),
 
-                contentDescription = conversationPeople.name,
+                contentDescription = conversationPeople.title,
 placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
 
                 modifier = Modifier
@@ -207,14 +234,15 @@ placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
                alignment = Alignment.CenterStart,
                 contentScale = ContentScale.Crop
                 )
-
             Text(
-                text= conversationPeople.name,
+                text= conversationPeople.title,
                 modifier = Modifier.padding(2.dp),
                 style = MaterialTheme.typography.bodySmall,
                 textAlign = TextAlign.Center
             )
+
         }
+
     }
 
 }
@@ -224,6 +252,6 @@ placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
 @Composable
 fun PreviewConversationScreen(){
     WildEyeChatAppTheme {
-        ConversationScreen()
+        ConversationScreen(onNavToProfile = {})
     }
 }

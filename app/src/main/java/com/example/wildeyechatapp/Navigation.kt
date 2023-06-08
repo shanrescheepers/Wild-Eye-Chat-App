@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.wildeyechatapp.screens.ConversationScreen
 import com.example.wildeyechatapp.screens.LoginScreen
+import com.example.wildeyechatapp.screens.ProfileScreen
 import com.example.wildeyechatapp.screens.RegisterScreen
 import com.example.wildeyechatapp.viewModels.AuthViewModel
 
@@ -85,7 +86,33 @@ fun Navigation(
 //END
 //        My ConversationsScreen
         composable(route = HomeRoutes.ConversationScreen.name){
-            ConversationScreen()
+            ConversationScreen(
+                onNavToProfile = {
+
+                        navController.navigate(HomeRoutes.Profile.name){
+                            launchSingleTop = true
+                        }
+
+
+                }
+            )
+        }
+        composable(route = HomeRoutes.Profile.name){
+            ProfileScreen(
+                navOnLogOut = {
+                    navController.navigate(AuthRoutes.Login.name) {
+                        launchSingleTop = true
+                        popUpTo(route = HomeRoutes.ConversationScreen.name){
+                            inclusive = true
+                        }
+                    }
+                }, navBack = {
+                    navController.navigate(HomeRoutes.ConversationScreen.name){
+                        launchSingleTop = true
+                        popUpTo(route = HomeRoutes.ConversationScreen.name)
+                    }
+                }
+            )
         }
 
 //        TODO: Create links to profile and chat screen(pass data

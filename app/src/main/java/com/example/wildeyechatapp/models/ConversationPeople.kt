@@ -3,6 +3,6 @@ package com.example.wildeyechatapp.models
 data class ConversationPeople(
 
     val id: String = "",
-    val name: String = "",
+    val title: String = "",
     val image: String = "",
 )
