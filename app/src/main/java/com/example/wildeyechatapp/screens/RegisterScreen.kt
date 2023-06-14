@@ -60,6 +60,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import com.example.wildeyechatapp.ui.theme.BGcolor
 import com.example.wildeyechatapp.ui.theme.warningColor
 import com.example.wildeyechatapp.viewModels.AuthUiState
 import com.example.wildeyechatapp.viewModels.AuthViewModel
@@ -114,7 +115,7 @@ fun RegisterScreen(
         }
         // NAME + CARD
      Card(colors = CardDefaults.cardColors(containerColor = Color.Black),
-         modifier = Modifier.height(250.dp).fillMaxWidth().padding(10.dp))
+         modifier = Modifier.height(260.dp).fillMaxWidth().padding(10.dp))
       {
          OutlinedTextField(
              value = authUiState?.registerUsername ?: "",
@@ -129,9 +130,11 @@ fun RegisterScreen(
                      contentDescription = null) },
              keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
              modifier = Modifier
-                 .fillMaxWidth().padding(horizontal = 8.dp).padding(top = 4.dp)
+                 .fillMaxWidth()
+                 .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
+//                                .padding(10.dp)
                  .height(50.dp),
-             textStyle = TextStyle(fontSize = 12.sp),)
+             textStyle = TextStyle(fontSize = 10.sp, color = BGcolor))
 // EMAIL
          OutlinedTextField(
              value = authUiState?.registerEmail ?: "",
@@ -147,10 +150,12 @@ fun RegisterScreen(
                      contentDescription = null) },
              keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
              modifier = Modifier
-                 .fillMaxWidth().padding(horizontal = 8.dp).padding(top = 4.dp)
+                 .fillMaxWidth()
+                 .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
+//                                .padding(10.dp)
                  .height(50.dp),
-             textStyle = TextStyle(fontSize = 12.sp),
-         )
+             textStyle = TextStyle(fontSize = 10.sp, color = BGcolor))
+
 //STAND NUMBER
          OutlinedTextField(
              value = authUiState?.registerStandNumber ?: "",
@@ -165,10 +170,11 @@ fun RegisterScreen(
                      contentDescription = null) },
              keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
              modifier = Modifier
-                 .fillMaxWidth().padding(horizontal = 8.dp).padding(top = 4.dp)
+                 .fillMaxWidth()
+                 .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
+//                                .padding(10.dp)
                  .height(50.dp),
-             textStyle = TextStyle(fontSize = 12.sp),
-         )
+             textStyle = TextStyle(fontSize = 10.sp, color = BGcolor))
 //PASSWORD
          OutlinedTextField(
              value = authUiState?.registerPassword ?: "",
@@ -183,9 +189,11 @@ fun RegisterScreen(
                      contentDescription = null) },
              keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
              modifier = Modifier
-                 .fillMaxWidth().padding(horizontal = 8.dp).padding(top = 4.dp)
+                 .fillMaxWidth()
+                 .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
+//                                .padding(10.dp)
                  .height(50.dp),
-             textStyle = TextStyle(fontSize = 12.sp),)
+             textStyle = TextStyle(fontSize = 10.sp, color = BGcolor))
      }
         Spacer(modifier = Modifier.size(20.dp))
         Button(

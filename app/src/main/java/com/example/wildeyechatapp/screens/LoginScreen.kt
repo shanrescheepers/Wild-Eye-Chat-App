@@ -53,6 +53,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.wildeyechatapp.R
+import com.example.wildeyechatapp.ui.theme.BGcolor
 import com.example.wildeyechatapp.ui.theme.BlackButton
 import com.example.wildeyechatapp.ui.theme.ButtonTextColor
 import com.example.wildeyechatapp.ui.theme.InputBorderColor
@@ -123,7 +124,11 @@ fun LoginScreen(
         }
 //
         Card(colors = CardDefaults.cardColors(containerColor = Color.Black),
-            modifier = Modifier.height(150.dp).fillMaxWidth().padding(10.dp)) {
+            modifier = Modifier
+                .height(155.dp)
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 8.dp)
+        ) {
 
                         OutlinedTextField(
                             value = authUiState?.loginEmail ?: "",
@@ -135,24 +140,25 @@ fun LoginScreen(
                                 Text(
                                     text = "Email",
                                     color = LightGrey,
-                                    style = TextStyle(textAlign = TextAlign.Left)
+                                    style = TextStyle(textAlign = TextAlign.Left),
                                 )
                             },
-//                            colors = TextFieldDefaults.outlinedTextFieldColors(
-//                                focusedBorderColor = Color.Transparent,
-//                                unfocusedBorderColor = Color.Transparent
-//                            ),
                             leadingIcon = {
                                 Icon(
                                     modifier = Modifier.size(20.dp),
                                     imageVector = Icons.Default.Email,
-                                    contentDescription = null) },
+                                    contentDescription = null
+                                )
+                            },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+//                            textStyle = TextStyle(color = BGcolor),
                             modifier = Modifier
-                                .fillMaxWidth().padding(horizontal = 8.dp).padding(top = 10.dp)
+                                .fillMaxWidth()
+                                .padding(horizontal = 4.dp, vertical = 8.dp) // Add padding here
+//                                .padding(10.dp)
                                 .height(50.dp),
-                            textStyle = TextStyle(fontSize = 12.sp),
-                        )
+                            textStyle = TextStyle(fontSize = 10.sp, color = BGcolor))
+
                         OutlinedTextField(
                             value = authUiState?.loginPassword ?: "",
                             onValueChange = { authViewModel?.handleInputStateChanges("loginPassword", it
@@ -171,11 +177,15 @@ fun LoginScreen(
                                         contentDescription = null) },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                             modifier = Modifier
-                                .fillMaxWidth().padding(horizontal = 8.dp)
+                                .fillMaxWidth()
+                                .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
+//                                .padding(10.dp)
                                 .height(50.dp),
-                            textStyle = TextStyle(fontSize = 12.sp),)
+                            textStyle = TextStyle(fontSize = 10.sp, color = BGcolor))
                     }
-        Spacer(modifier = Modifier.size(105.dp).height(50.dp))
+        Spacer(modifier = Modifier
+            .size(125.dp)
+            .height(55.dp))
         Button(
             onClick = { authViewModel?.loginUser(context) },
             modifier = Modifier
