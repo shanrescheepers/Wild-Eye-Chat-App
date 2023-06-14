@@ -23,10 +23,15 @@ class ConversationsViewModel(
     var currentUserImage = "https://firebasestorage.googleapis.com/v0/b/wild-eye-chat-app.appspot.com/o/default_profile.png?alt=media&token=5283c9b7-e4a9-4423-b8c0-59ba08f9e61f"
 
     init{
-        getConversations()
         getCurrentProfile()
+
+        getConversations()
     }
-    private fun getCurrentProfile() = viewModelScope.launch {
+    fun getProfileImage(): String {
+        return currentUserImage
+    }
+
+    fun getCurrentProfile() = viewModelScope.launch {
         currentUserId = AuthService().getUserId()
         if(currentUserId.isNotBlank()){
             service.getUserProfile(currentUserId){

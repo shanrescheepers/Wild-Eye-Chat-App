@@ -36,10 +36,11 @@ class ProfileViewModel(
     fun updateUser(
         uid: String,
         username: String,
+        image: String,
         onSuccess: (Boolean) -> Unit
     ) {
         // Call the function from the previous code snippet
-        service.updateUserInDatabase(uid, username, onSuccess)
+        service.updateUserInDatabase(uid, username, image, onSuccess)
     }
 
 }

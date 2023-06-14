@@ -84,14 +84,14 @@ class FireStoreService {
 //        email: String,
 //        standNumber: String,
         username: String,
-//        profileImageUrl: String,
+        profileImageUrl: String,
         onSuccess: (Boolean) -> Unit
     ) {
         val userUpdateData: MutableMap<String, Any?> = hashMapOf(
             "username" to username,
 //            "email" to email,
 //            "standNumber" to standNumber,
-//            "profileImageUrl" to profileImageUrl,
+            "profileImageUrl" to profileImageUrl,
         )
 
         db.collection("users").document(uid)

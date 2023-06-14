@@ -43,12 +43,14 @@ class ChatViewModel(
 //    val timestamp: Timestamp = Timestamp.now(),
 //    }
 
-    private var currentUser : User? = null
+    var currentUser : User? = null
     var currentUserId = ""
 
     init {
         getCurrentProfile()
     }
+
+
     private fun getCurrentProfile() = viewModelScope.launch {
          currentUserId = AuthService().getUserId()
 

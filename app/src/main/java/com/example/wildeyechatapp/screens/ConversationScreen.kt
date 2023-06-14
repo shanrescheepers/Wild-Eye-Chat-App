@@ -37,6 +37,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -66,11 +68,13 @@ import coil.request.ImageRequest
 import com.example.wildeyechatapp.R.drawable.smalllogopng
 import com.example.wildeyechatapp.models.ConversationPeople
 import com.example.wildeyechatapp.models.User
+import com.example.wildeyechatapp.models.UserDataClass
 import com.example.wildeyechatapp.services.AuthService
 import com.example.wildeyechatapp.ui.theme.InputFieldColor
 import com.example.wildeyechatapp.ui.theme.backgroundColor
 import com.example.wildeyechatapp.viewModels.ConversationsViewModel
 import kotlinx.coroutines.launch
+import okhttp3.internal.wait
 
 @Composable
 fun ConversationScreen(
@@ -82,8 +86,16 @@ fun ConversationScreen(
 
 ){
     val allConversations = viewModel?.convoList ?: listOf<ConversationPeople>()
+    val userData = remember { mutableStateOf<UserDataClass?>(null) }
+//    val viewModel: ConversationsViewModel = viewModel()
+    DisposableEffect(Unit){
+        viewModel.getCurrentProfile()
 
+        Log.d("Refreshing user data", "")
+        onDispose {
 
+        }
+    }
 
 Column(
     horizontalAlignment = Alignment.CenterHorizontally,
@@ -122,7 +134,7 @@ Column(
 
         AsyncImage(
 
-            model = viewModel.currentUserImage,
+            model = viewModel.getProfileImage(),
             contentDescription = null,
             modifier = Modifier
                 .width(80.dp)
@@ -162,13 +174,13 @@ Column(
             )
         }
     }
-  Box(
-      modifier
-          .padding(5.dp)
-          .background(backgroundColor)
-          ){
-      Text(text = "Profile")
-  }
+//  Box(
+//      modifier
+//          .padding(5.dp)
+//          .background(backgroundColor)
+//          ){
+//      Text(text = "Profile")
+//  }
 
 
     Spacer(modifier = Modifier.size(20.dp))

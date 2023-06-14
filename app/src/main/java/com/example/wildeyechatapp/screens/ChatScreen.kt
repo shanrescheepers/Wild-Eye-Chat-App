@@ -55,7 +55,6 @@ fun ChatScreen(
     chatId : String?,
     modifier: Modifier = Modifier
 ) {
-
     var newMessage by remember {
       mutableStateOf("")
     }
