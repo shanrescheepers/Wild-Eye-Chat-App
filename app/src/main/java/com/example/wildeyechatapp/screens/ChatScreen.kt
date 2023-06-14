@@ -1,5 +1,6 @@
 package com.example.wildeyechatapp.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -56,6 +58,7 @@ fun ChatScreen(
     var newMessage by remember {
       mutableStateOf("")
     }
+var isChatIdNotBlank = chatId.isNullOrBlank()
 
   val  currentUserFrom = "Shanre"
 
@@ -69,6 +72,15 @@ val dummyData = listOf<Message>(
     Message(fromUserId = "Shanre",from = "Shanre", message = " Hi"),
     Message(fromUserId = "Leo",from = "Leo", message = " Hi Daar"),
 )
+
+    LaunchedEffect(key1 = Unit){
+        if (!isChatIdNotBlank){
+            viewModel.getRealTimeMessages(chatId?:"")
+            Log.d("Launch effect attempt", "")
+        } else {
+            Log.d("Launch effect fail","")
+        }
+    }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.fillMaxSize()

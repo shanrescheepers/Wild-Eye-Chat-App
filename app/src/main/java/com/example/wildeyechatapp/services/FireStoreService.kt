@@ -94,6 +94,8 @@ class FireStoreService {
                 onSuccess.invoke(false)
             }.await()
     }
+//Get Live CHats
+//     val realTimeMessageRef = conversationsRef.document()
 
     suspend fun getUserProfile(
         uid: String,

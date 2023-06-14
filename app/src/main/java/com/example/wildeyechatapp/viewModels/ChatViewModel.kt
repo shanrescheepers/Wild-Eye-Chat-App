@@ -12,6 +12,12 @@ import com.example.wildeyechatapp.models.Message
 import com.example.wildeyechatapp.models.User
 import com.example.wildeyechatapp.services.AuthService
 import com.example.wildeyechatapp.services.FireStoreService
+import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.QueryDocumentSnapshot
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.snapshots
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 
 class ChatViewModel(
@@ -21,6 +27,9 @@ class ChatViewModel(
     private val _messageLists = mutableStateListOf<Message>()
 
     val messageList: List<Message> = _messageLists
+
+    var messageListener: ListenerRegistration? = null
+
 //   private var _newMessage = mutableStateOf("")
 //
 //    fun updateNewMessage(value: String){
@@ -69,6 +78,36 @@ class ChatViewModel(
                 }
             }
         }
+    }
+
+    fun getRealTimeMessages(chatId: String){
+        Log.d("Start listening...", chatId)
+
+        val collectionRef =  Firebase.firestore.collection("conversations")
+            .document(chatId).collection("messages").orderBy("timestamp")
+            .limit(50)
+    messageListener = collectionRef.addSnapshotListener{
+    snapshot, e ->
+    if(e!= null){
+        Log.d("Listerner went wrong...", e.localizedMessage)
+        return@addSnapshotListener
+    }
+            if (snapshot!= null){
+                Log.d("REceived realtime...", snapshot.toString())
+                _messageLists.clear()
+                for(document in snapshot){
+                    _messageLists.add(document.toObject(Message::class.java))
+                }
+                Log.d("received new messages", snapshot.query.toString())
+            }
+        }
+
+    }
+    override fun onCleared(){
+        Log.d("stop view model", "")
+        messageListener?.remove()
+
+        messageListener = null
     }
 }
 
