@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
+0
             val authViewModel: AuthViewModel = viewModel(modelClass = AuthViewModel::class.java)
             WildEyeChatAppTheme {
                 // A surface container using the 'background' color from the theme

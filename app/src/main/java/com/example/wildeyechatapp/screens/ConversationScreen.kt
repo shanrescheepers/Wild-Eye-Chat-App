@@ -58,6 +58,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.wildeyechatapp.R.drawable.smalllogopng
@@ -69,7 +70,8 @@ import com.example.wildeyechatapp.viewModels.ConversationsViewModel
 @Composable
 fun ConversationScreen(
     onNavToProfile: () -> Unit,
-    viewModel: ConversationsViewModel = ConversationsViewModel(),
+    onNavToChat: (chatId: String) -> Unit,
+    viewModel: ConversationsViewModel = viewModel(),
     modifier: Modifier = Modifier
 
 
@@ -162,11 +164,16 @@ Column(
 LazyRow(){
     items(allConversations){
             conversation ->
-        ConversationCard(
-            ConversationPeople(
-                title = conversation.title,
-                image = conversation.image)
-        )
+       Card(   modifier = Modifier
+           .clickable { onNavToChat.invoke(conversation.id) },) {
+
+            ConversationCard(
+                ConversationPeople(
+                    title = conversation.title,
+                    image = conversation.image
+                )
+            )
+        }
     }
 }
     Row(
@@ -213,6 +220,7 @@ fun ConversationCard(
             .height(100.dp)
             .background(color = InputFieldColor),
 
+
         shape = RoundedCornerShape(80.dp),) {
         Column(modifier = Modifier.padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -225,6 +233,7 @@ fun ConversationCard(
                 error= painterResource( R.drawable.ic_launcher_foreground),
 
                 contentDescription = conversationPeople.title,
+
 placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
 
                 modifier = Modifier
@@ -252,6 +261,7 @@ placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
 @Composable
 fun PreviewConversationScreen(){
     WildEyeChatAppTheme {
-        ConversationScreen(onNavToProfile = {})
+        ConversationScreen(onNavToProfile = {},onNavToChat = {})
+//        ConversationScreen(onNavToChat = {})
     }
 }

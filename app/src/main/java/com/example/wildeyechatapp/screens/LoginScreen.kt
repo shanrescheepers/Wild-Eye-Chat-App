@@ -211,7 +211,7 @@ fun LoginScreen(
                             label = {
                                 Text(
                                     text = "Password",
-                                    color = LightGrey,
+                                    color = Color.Black,
                                     style = TextStyle(textAlign = TextAlign.End)
                                 )
                             },

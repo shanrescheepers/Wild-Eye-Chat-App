@@ -6,3 +6,4 @@ data class ConversationPeople(
     val title: String = "",
     val image: String = "",
 )
+//date long,, status string, message string

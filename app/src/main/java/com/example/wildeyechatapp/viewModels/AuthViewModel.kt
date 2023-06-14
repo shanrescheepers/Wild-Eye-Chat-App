@@ -83,7 +83,7 @@ class AuthViewModel(
 
 
                     } else {
-                        Log.d("Error REgistering", "something went wrong")
+                        Log.d("Error Registering", "something went wrong")
                         Toast.makeText(context, "Registration Failed!",
                             Toast.LENGTH_SHORT).show()
                         authUiState =  authUiState.copy(authSuccess = false)

@@ -3,9 +3,12 @@ import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.wildeyechatapp.screens.ChatScreen
 import com.example.wildeyechatapp.screens.ConversationScreen
 import com.example.wildeyechatapp.screens.LoginScreen
 import com.example.wildeyechatapp.screens.ProfileScreen
@@ -88,13 +91,16 @@ fun Navigation(
         composable(route = HomeRoutes.ConversationScreen.name){
             ConversationScreen(
                 onNavToProfile = {
-
                         navController.navigate(HomeRoutes.Profile.name){
                             launchSingleTop = true
                         }
-
-
+                },
+//                click fun
+            onNavToChat = {
+                navController.navigate("${HomeRoutes.Chat.name}/${it}"){
+                    launchSingleTop = true
                 }
+            }
             )
         }
         composable(route = HomeRoutes.Profile.name){
@@ -115,6 +121,11 @@ fun Navigation(
             )
         }
 
+        composable(route = "${HomeRoutes.Chat.name}/{chatId}",
+            arguments = listOf(navArgument("chatId"){type = NavType.StringType; defaultValue = "chat1234"})
+            ){
+            ChatScreen(chatId =  it.arguments?.getString("chatId"))
+        }
 //        TODO: Create links to profile and chat screen(pass data
 //        Stup auth to prevent access to specific screens
     }
