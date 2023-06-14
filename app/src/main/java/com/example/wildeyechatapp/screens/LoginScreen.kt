@@ -53,6 +53,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.wildeyechatapp.R
+import com.example.wildeyechatapp.services.MyNotification
 import com.example.wildeyechatapp.ui.theme.BGcolor
 import com.example.wildeyechatapp.ui.theme.BlackButton
 import com.example.wildeyechatapp.ui.theme.ButtonTextColor
@@ -194,6 +195,24 @@ fun LoginScreen(
         ) {
             Text(
                 text = "Login",
+                fontSize = 18.sp,
+                modifier = Modifier.padding(8.dp), color = ButtonTextColor
+            )
+        }
+        Button(
+            onClick = { val myNotification = MyNotification(
+                context,
+                "Test Notification",
+                "This is my notification"
+            )
+                myNotification.showNotification()
+                      },
+            modifier = Modifier
+                .width(200.dp)
+                .padding(4.dp), colors = ButtonDefaults.buttonColors(BlackButton)
+        ) {
+            Text(
+                text = "Test Notification",
                 fontSize = 18.sp,
                 modifier = Modifier.padding(8.dp), color = ButtonTextColor
             )

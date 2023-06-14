@@ -81,16 +81,16 @@ class FireStoreService {
     }
     fun updateUserInDatabase(
         uid: String,
-//        email: String,
-//        standNumber: String,
         username: String,
         profileImageUrl: String,
+//        email: String,
+        standNumber: String,
         onSuccess: (Boolean) -> Unit
     ) {
         val userUpdateData: MutableMap<String, Any?> = hashMapOf(
             "username" to username,
 //            "email" to email,
-//            "standNumber" to standNumber,
+            "standNumber" to standNumber,
             "profileImageUrl" to profileImageUrl,
         )
 
@@ -131,10 +131,10 @@ class FireStoreService {
         Log.d("Getting UID ", uid)
         userRef.document(uid).get().addOnSuccessListener {
             if(it != null){
-                Log.d(ContentValues.TAG, "Document Snapshot whatver")
+                Log.d(ContentValues.TAG, "Document Snapshot whatever")
                 onSuccess.invoke(it?.toObject(User::class.java))
             }else {
-                Log.d(ContentValues.TAG, "No such Document Snapshot whatver")
+                Log.d(ContentValues.TAG, "No such Document Snapshot whatever")
                 onSuccess.invoke(null)
             }
         }

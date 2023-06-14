@@ -1,5 +1,6 @@
 package com.example.wildeyechatapp.screens
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,6 +16,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Person
@@ -56,6 +59,8 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
@@ -75,9 +80,19 @@ fun ProfileScreen(
 //fun ProfileScreen() {
     val currentUsername = remember { mutableStateOf("") }
     val newUsername = remember{ mutableStateOf("") }
+    val newStand = remember{ mutableStateOf("") }
+    val newEmail = remember{ mutableStateOf("") }
     val newImage = remember{ mutableStateOf("Option 1") }
 
+//    LaunchedEffect(Unit){
+//        Log.d("User", viewModel.currentUser?.username.toString())
+//        newUsername.value = viewModel.currentUser?.username.toString() ?: ""
+//
+//    }
+
 //    newUsername.value = viewModel.currentUser?.username ?: ""
+//    newUsername.apply { viewModel.currentUser?.username }
+
 //
 //    Column(
 //        modifier = Modifier.padding(16.dp)
@@ -178,6 +193,56 @@ fun ProfileScreen(
                 .height(50.dp),
             textStyle = TextStyle(fontSize = 10.sp, color = BGcolor)
         )
+        OutlinedTextField(
+            value = newStand.value,
+            onValueChange = { value -> newStand.value = value },
+            shape = RoundedCornerShape(15.dp),
+            label = {
+                Text(
+                    text = "Edit stand",
+                    color = LightGrey,
+                    style = TextStyle(textAlign = TextAlign.Left)
+                )
+            },
+            leadingIcon = {
+                Icon(
+                    modifier = Modifier.size(20.dp),
+                    imageVector = Icons.Default.Home,
+                    contentDescription = null
+                )
+            },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
+                .height(50.dp),
+            textStyle = TextStyle(fontSize = 10.sp, color = BGcolor)
+        )
+//        OutlinedTextField(
+//            value = newEmail.value,
+//            onValueChange = { value -> newEmail.value = value },
+//            shape = RoundedCornerShape(15.dp),
+//            label = {
+//                Text(
+//                    text = "Edit email",
+//                    color = LightGrey,
+//                    style = TextStyle(textAlign = TextAlign.Left)
+//                )
+//            },
+//            leadingIcon = {
+//                Icon(
+//                    modifier = Modifier.size(20.dp),
+//                    imageVector = Icons.Default.Email,
+//                    contentDescription = null
+//                )
+//            },
+//            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
+//                .height(50.dp),
+//            textStyle = TextStyle(fontSize = 10.sp, color = BGcolor)
+//        )
 
 // EMAIL
 
@@ -192,11 +257,11 @@ fun ProfileScreen(
 
 
         val options = listOf(
-            "Option 1" to "https://firebasestorage.googleapis.com/v0/b/wild-eye-chat-app.appspot.com/o/default_profile.png?alt=media&token=5283c9b7-e4a9-4423-b8c0-59ba08f9e61f",
-            "Option 2" to "https://firebasestorage.googleapis.com/v0/b/wild-eye-chat-app.appspot.com/o/default_profile.png?alt=media&token=5283c9b7-e4a9-4423-b8c0-59ba08f9e61f",
-            "Option 3" to "https://firebasestorage.googleapis.com/v0/b/wild-eye-chat-app.appspot.com/o/management_icon.png?alt=media&token=bf914656-0900-432e-a832-7f9b5e2068f5",
-            "Option 4" to "Option 4",
-            "Option 5" to "Option 5")
+            "🐆" to "https://firebasestorage.googleapis.com/v0/b/wild-eye-chat-app.appspot.com/o/pfp_1.png?alt=media&token=f0aa2c7c-b4f3-44ce-8b10-4d1349e69646",
+            "🐾" to "https://firebasestorage.googleapis.com/v0/b/wild-eye-chat-app.appspot.com/o/pfp_2.png?alt=media&token=edef79b2-8ce0-479c-bee5-5ad5c6d9bd27",
+            "🦁" to "https://firebasestorage.googleapis.com/v0/b/wild-eye-chat-app.appspot.com/o/pfp_3.png?alt=media&token=87eaead0-669d-4879-8827-4b52aadfe834",
+            "🦒" to "https://firebasestorage.googleapis.com/v0/b/wild-eye-chat-app.appspot.com/o/pfp_4.png?alt=media&token=7f3a82ba-53ff-4bb2-b404-5a32e2db67be",
+            "🦅" to "https://firebasestorage.googleapis.com/v0/b/wild-eye-chat-app.appspot.com/o/pfp_5.png?alt=media&token=9da8a20d-1089-4977-ac1a-03177fe770dd")
         var expanded by remember { mutableStateOf(false) }
         var selectedOptionText by remember { mutableStateOf(options[0].first) }
 // We want to react on tap/press on TextField to show menu
@@ -220,8 +285,8 @@ fun ProfileScreen(
             ) {
                 options.forEach { selectionOption ->
                     DropdownMenuItem(
-                        text = { Text(selectionOption.first)
-                               AsyncImage(model = selectionOption.second, contentDescription = selectionOption.first)},
+                        text = { Row(){Text(selectionOption.first)
+                            AsyncImage(model = selectionOption.second, contentDescription = selectionOption.first)}},
                         onClick = {
                             selectedOptionText = selectionOption.first
                             expanded = false
@@ -244,7 +309,7 @@ fun ProfileScreen(
             Button(onClick = {
                 val uid = viewModel.currentUserId
                 if (newUsername.value.toString() != ""){
-                    viewModel.updateUser(uid, newUsername.value.toString(), newImage.value.toString()) { success ->
+                    viewModel.updateUser(uid, newUsername.value.toString(), newImage.value.toString(), newStand.value.toString()) { success ->
                         if (success) {
                             Toast.makeText(context, "Profile update", Toast.LENGTH_SHORT).show()
 //                            navigation.goBack()
