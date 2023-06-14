@@ -58,6 +58,7 @@ fun ChatScreen(
     var newMessage by remember {
       mutableStateOf("")
     }
+val allMessages = viewModel?.messageList?: listOf<Message>()
 var isChatIdNotBlank = chatId.isNullOrBlank()
 
   val  currentUserFrom = "Shanre"
@@ -94,8 +95,8 @@ val dummyData = listOf<Message>(
 //Lazycol
     LazyColumn(modifier = modifier.weight(1f),
     reverseLayout =  true){
-        items(dummyData){message->
-            if (currentUserFrom ==message.fromUserId){
+        items(allMessages){message->
+            if (viewModel.currentUserId ==message.fromUserId){
                 MessageToBubble(message)
             } else {
                 MessageFromBubble(message)

@@ -13,6 +13,7 @@ import com.example.wildeyechatapp.models.User
 import com.example.wildeyechatapp.services.AuthService
 import com.example.wildeyechatapp.services.FireStoreService
 import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.snapshots
@@ -24,9 +25,9 @@ class ChatViewModel(
     private val service: FireStoreService = FireStoreService()
 
 ):ViewModel() {
-    private val _messageLists = mutableStateListOf<Message>()
+    private val _messageList = mutableStateListOf<Message>()
 
-    val messageList: List<Message> = _messageLists
+    val messageList: List<Message> = _messageList
 
     var messageListener: ListenerRegistration? = null
 
@@ -84,7 +85,7 @@ class ChatViewModel(
         Log.d("Start listening...", chatId)
 
         val collectionRef =  Firebase.firestore.collection("conversations")
-            .document(chatId).collection("messages").orderBy("timestamp")
+            .document(chatId).collection("messages").orderBy("timestamp", Query.Direction.DESCENDING)
             .limit(50)
     messageListener = collectionRef.addSnapshotListener{
     snapshot, e ->
@@ -94,9 +95,9 @@ class ChatViewModel(
     }
             if (snapshot!= null){
                 Log.d("REceived realtime...", snapshot.toString())
-                _messageLists.clear()
+                _messageList.clear()
                 for(document in snapshot){
-                    _messageLists.add(document.toObject(Message::class.java))
+                    _messageList.add(document.toObject(Message::class.java))
                 }
                 Log.d("received new messages", snapshot.query.toString())
             }
