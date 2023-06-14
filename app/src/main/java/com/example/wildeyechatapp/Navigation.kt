@@ -1,6 +1,12 @@
 package com.example.wildeyechatapp
 import android.annotation.SuppressLint
+import android.os.Build
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -32,6 +38,11 @@ fun Navigation(
     authViewModel: AuthViewModel,
     navController: NavHostController = rememberNavController()
 ) {
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { Log.d("Notification request", it.toString()) })
+
     val startingScreen = if(authViewModel.hasUser){
         HomeRoutes.ConversationScreen.name
     } else {
@@ -128,5 +139,13 @@ fun Navigation(
         }
 //        TODO: Create links to profile and chat screen(pass data
 //        Stup auth to prevent access to specific screens
+
+
+    }
+    LaunchedEffect(key1 = permissionLauncher){
+        Log.d("Launch permission request", "Yes!")
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            permissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+        }
     }
 }

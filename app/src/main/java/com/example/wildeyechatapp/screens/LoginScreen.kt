@@ -199,24 +199,24 @@ fun LoginScreen(
                 modifier = Modifier.padding(8.dp), color = ButtonTextColor
             )
         }
-        Button(
-            onClick = { val myNotification = MyNotification(
-                context,
-                "Test Notification",
-                "This is my notification"
-            )
-                myNotification.showNotification()
-                      },
-            modifier = Modifier
-                .width(200.dp)
-                .padding(4.dp), colors = ButtonDefaults.buttonColors(BlackButton)
-        ) {
-            Text(
-                text = "Test Notification",
-                fontSize = 18.sp,
-                modifier = Modifier.padding(8.dp), color = ButtonTextColor
-            )
-        }
+//        Button(
+//            onClick = { val myNotification = MyNotification(
+//                context,
+//                "Test Notification",
+//                "This is my notification"
+//            )
+//                myNotification.showNotification()
+//                      },
+//            modifier = Modifier
+//                .width(200.dp)
+//                .padding(4.dp), colors = ButtonDefaults.buttonColors(BlackButton)
+//        ) {
+//            Text(
+//                text = "Test Notification",
+//                fontSize = 18.sp,
+//                modifier = Modifier.padding(8.dp), color = ButtonTextColor
+//            )
+//        }
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,

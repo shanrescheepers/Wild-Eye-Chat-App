@@ -1,5 +1,6 @@
 package com.example.wildeyechatapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 //import androidx.compose.ui.platform.setContent
@@ -19,6 +20,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.wildeyechatapp.screens.ConversationScreen
 import com.example.wildeyechatapp.screens.LoginScreen
 import com.example.wildeyechatapp.screens.RegisterScreen
+import com.example.wildeyechatapp.services.BackgroundService
 import com.example.wildeyechatapp.ui.theme.BGcolor
 import com.example.wildeyechatapp.ui.theme.InputBorderColor
 import com.example.wildeyechatapp.ui.theme.TitleColor
@@ -45,7 +47,14 @@ class MainActivity : ComponentActivity() {
 
                 }
             }
+
         }
+        //Launch background service
+        val  serviceIntent= Intent(
+            this,
+            BackgroundService::class.java
+        )
+        startService(serviceIntent)
     }
 }
 
