@@ -25,6 +25,8 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -93,8 +95,6 @@ fun LoginScreen(
         modifier = Modifier
             .background(InputFieldColor)
             .fillMaxSize(),
-
-
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
@@ -104,13 +104,7 @@ fun LoginScreen(
                 .padding(8.dp)
                 .width(width = 260.dp)
                 .align(alignment = Alignment.CenterHorizontally),
-
             )
-
-
-//        Spacer(modifier = Modifier.size(10.dp))
-
-
         Text(
             text = "LOGIN BY ADDING YOUR DETAILS BELOW",
             style = MaterialTheme.typography.displayMedium.copy(textAlign = TextAlign.Center),
@@ -121,37 +115,15 @@ fun LoginScreen(
         )
 
         Spacer(modifier = Modifier.size(7.dp))
-//        Card(colors = CardDefaults.cardColors(containerColor = BlockColor),
-//            modifier = Modifier
-//                .height(150.dp)
-//                .fillMaxWidth()
-//                .padding(10.dp))
-//
-//        {
         if (error) {
             Text(
                 text = authUiState?.errorMessage ?: "",
                 color = warningColor
             )
         }
-        Row(modifier = Modifier.padding(horizontal = 10.dp)) {
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background((InputBorderColor), shape = RoundedCornerShape(12.dp))
-                    .padding(16.dp)
-            ) {
-
-                Column(modifier = Modifier
-                    .padding(20.dp)
-                    .padding(start = 2.dp)) {
-                    Box(
-                        modifier = Modifier
-                            .background((backgroundColor), shape = RoundedCornerShape(8.dp))
-                            .padding(horizontal = 1.dp)
-                            .clip(RoundedCornerShape(15.dp))
-                    ) {
+//
+        Card(colors = CardDefaults.cardColors(containerColor = Color.Black),
+            modifier = Modifier.height(150.dp).fillMaxWidth().padding(10.dp)) {
 
                         OutlinedTextField(
                             value = authUiState?.loginEmail ?: "",
@@ -162,99 +134,48 @@ fun LoginScreen(
                             label = {
                                 Text(
                                     text = "Email",
-                                    color = Color.Black,
+                                    color = LightGrey,
                                     style = TextStyle(textAlign = TextAlign.Left)
                                 )
                             },
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                focusedBorderColor = Color.Transparent,
-                                unfocusedBorderColor = Color.Transparent
-                            ),
+//                            colors = TextFieldDefaults.outlinedTextFieldColors(
+//                                focusedBorderColor = Color.Transparent,
+//                                unfocusedBorderColor = Color.Transparent
+//                            ),
                             leadingIcon = {
                                 Icon(
+                                    modifier = Modifier.size(20.dp),
                                     imageVector = Icons.Default.Email,
-                                    contentDescription = null
-                                )
-                            },
+                                    contentDescription = null) },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .background(backgroundColor)
-                                .fillMaxWidth()
-                                .padding(vertical = 6.dp)
-                                .padding(horizontal = 1.dp)
-                                .clip(RoundedCornerShape(15.dp))
-                                .height(60.dp),
+                                .fillMaxWidth().padding(horizontal = 8.dp).padding(top = 10.dp)
+                                .height(50.dp),
                             textStyle = TextStyle(fontSize = 12.sp),
                         )
-                    }
-                    Spacer(modifier = Modifier.size(10.dp))
-                    Box(
-                        modifier = Modifier
-                            .background((backgroundColor), shape = RoundedCornerShape(8.dp))
-                            .padding(horizontal = 1.dp)
-                            .clip(RoundedCornerShape(15.dp))
-//
-//                            .width(200.dp)
-//                            .height(60.dp),
-                    ) {
                         OutlinedTextField(
                             value = authUiState?.loginPassword ?: "",
-                            onValueChange = {
-                                authViewModel?.handleInputStateChanges(
-                                    "loginPassword",
-                                    it
-                                )
-                            },
+                            onValueChange = { authViewModel?.handleInputStateChanges("loginPassword", it
 
-//                            shape = RoundedCornerShape(15.dp),
-                            label = {
-                                Text(
+                            ) },
+                            shape = RoundedCornerShape(15.dp),
+                            label = { Text(
                                     text = "Password",
-                                    color = Color.Black,
+                                     color = LightGrey,
                                     style = TextStyle(textAlign = TextAlign.End)
-                                )
-                            },
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                focusedBorderColor = Color.Transparent,
-                                unfocusedBorderColor = Color.Transparent
-                            ),
-
+                                )},
                             leadingIcon = {
-                                Row(
-                                    horizontalArrangement = Arrangement.Start
-                                ) {
-                                Icon(
-                                    modifier = Modifier
-                                        .size(20.dp)
-                                        .padding(start = 2.dp),
-
-                                    imageVector = Icons.Default.Lock,
-
-                                    contentDescription = null
-                                )
-                            }},
+                                    Icon(
+                                        modifier = Modifier.size(20.dp),
+                                        imageVector = Icons.Default.Lock,
+                                        contentDescription = null) },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                             modifier = Modifier
-//                                .padding(vertical = 6.dp)
-//                                .padding(horizontal = 10.dp)
-//                                .clip(RoundedCornerShape(15.dp))
-                                .fillMaxWidth()
-                                .background(backgroundColor)
-                                .fillMaxWidth()
-                                .padding(vertical = 6.dp)
-                                .padding(horizontal = 1.dp)
-                                .clip(RoundedCornerShape(15.dp))
-                                .height(60.dp),
-
-                            textStyle = TextStyle(fontSize = 12.sp),
-                        )
+                                .fillMaxWidth().padding(horizontal = 8.dp)
+                                .height(50.dp),
+                            textStyle = TextStyle(fontSize = 12.sp),)
                     }
-                }
-            }
-        }
-        Spacer(modifier = Modifier.size(30.dp))
-        Spacer(modifier = Modifier.size(30.dp))
+        Spacer(modifier = Modifier.size(105.dp).height(50.dp))
         Button(
             onClick = { authViewModel?.loginUser(context) },
             modifier = Modifier
@@ -267,9 +188,6 @@ fun LoginScreen(
                 modifier = Modifier.padding(8.dp), color = ButtonTextColor
             )
         }
-
-        Spacer(modifier = Modifier.size(10.dp))
-
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -281,6 +199,9 @@ fun LoginScreen(
             }
         }
     }
+
+
+
     SideEffect {
         val window = (context as? Activity)?.window
         window?.statusBarColor = Color.Black.toArgb()

@@ -58,6 +58,7 @@ import com.example.wildeyechatapp.ui.theme.TitleColor
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.example.wildeyechatapp.ui.theme.warningColor
 import com.example.wildeyechatapp.viewModels.AuthUiState
@@ -83,25 +84,28 @@ fun RegisterScreen(
     val titleColor = R.color.titleColor
 //    Text(text="Login Screen working")modifier = Modifier
     Column(
-            modifier = Modifier.background(InputFieldColor)
-        .fillMaxSize(),
+            modifier = Modifier
+                .background(InputFieldColor)
+                 .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(painter = painterResource(id = R.drawable.logo),
+        Image(
+            painter = painterResource(id = R.drawable.logo),
             contentDescription = null,
             modifier = Modifier
                 .padding(8.dp)
                 .width(width = 260.dp)
-                .align(alignment = Alignment.CenterHorizontally),)
-
+                .align(alignment = Alignment.CenterHorizontally),
+            )
         Text(
-            text="Please fill your details below",
-            style = MaterialTheme.typography.displaySmall,
+            text="PLEASE FILL YOUR DETAILS BELOW",
+            style = MaterialTheme.typography.displayMedium.copy(textAlign = TextAlign.Center),
             fontSize = 16.sp,
-            fontWeight = FontWeight.Medium,
-            color = TitleColor,
+            fontWeight = FontWeight.Bold,
+            color = BlackButton,
+            modifier = Modifier.padding(vertical = 15.dp)
         )
-        Spacer(modifier = Modifier.size(8.dp))
+        Spacer(modifier = Modifier.size(7.dp))
         if (error) {
             Text(
                 text = authUiState?.errorMessage ?: "",
@@ -109,8 +113,8 @@ fun RegisterScreen(
             )
         }
         // NAME + CARD
-     Card(colors = CardDefaults.cardColors(containerColor = BlockColor),
-         modifier = Modifier.height(230.dp).fillMaxWidth().padding(10.dp))
+     Card(colors = CardDefaults.cardColors(containerColor = Color.Black),
+         modifier = Modifier.height(250.dp).fillMaxWidth().padding(10.dp))
       {
          OutlinedTextField(
              value = authUiState?.registerUsername ?: "",
@@ -125,7 +129,7 @@ fun RegisterScreen(
                      contentDescription = null) },
              keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
              modifier = Modifier
-                 .fillMaxWidth().padding(horizontal = 8.dp)
+                 .fillMaxWidth().padding(horizontal = 8.dp).padding(top = 4.dp)
                  .height(50.dp),
              textStyle = TextStyle(fontSize = 12.sp),)
 // EMAIL
@@ -143,7 +147,7 @@ fun RegisterScreen(
                      contentDescription = null) },
              keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
              modifier = Modifier
-                 .fillMaxWidth().padding(horizontal = 8.dp)
+                 .fillMaxWidth().padding(horizontal = 8.dp).padding(top = 4.dp)
                  .height(50.dp),
              textStyle = TextStyle(fontSize = 12.sp),
          )
@@ -161,7 +165,7 @@ fun RegisterScreen(
                      contentDescription = null) },
              keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
              modifier = Modifier
-                 .fillMaxWidth().padding(horizontal = 8.dp)
+                 .fillMaxWidth().padding(horizontal = 8.dp).padding(top = 4.dp)
                  .height(50.dp),
              textStyle = TextStyle(fontSize = 12.sp),
          )
@@ -179,19 +183,21 @@ fun RegisterScreen(
                      contentDescription = null) },
              keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
              modifier = Modifier
-                 .fillMaxWidth().padding(horizontal = 8.dp)
+                 .fillMaxWidth().padding(horizontal = 8.dp).padding(top = 4.dp)
                  .height(50.dp),
              textStyle = TextStyle(fontSize = 12.sp),)
      }
         Spacer(modifier = Modifier.size(20.dp))
-        Button(onClick = {
-                         authViewModel.createNewUser(context)
-                         }, modifier = Modifier
-            .width(200.dp)
-            .padding(4.dp), colors = ButtonDefaults.buttonColors( BlackButton)) {
+        Button(
+            onClick = { authViewModel.createNewUser(context) },
+            modifier = Modifier
+              .width(200.dp)
+              .padding(4.dp), colors = ButtonDefaults.buttonColors( BlackButton)
+        ) {
             Text(text = "REGISTER",
                 fontSize = 18.sp,
-                modifier = Modifier.padding(8.dp), color = ButtonTextColor)
+                modifier = Modifier.padding(8.dp), color = ButtonTextColor
+            )
         }
 
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
@@ -200,6 +206,7 @@ fun RegisterScreen(
             }
         }
     }
+
     LaunchedEffect(key1 = authViewModel?.hasUser){
         if(authViewModel.hasUser ){
             navToHome.invoke()

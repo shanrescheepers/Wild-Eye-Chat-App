@@ -105,7 +105,7 @@ class AuthViewModel(
         try {
             //for validation
             if(authUiState.loginEmail.isBlank() || authUiState.loginPassword.isBlank()){
-                authUiState = authUiState.copy(errorMessage = "Please fill in both fields")
+                authUiState = authUiState.copy(errorMessage = "Please fill in all the fields")
             } else {
                 authUiState = authUiState.copy(isLoading = true)
                 // Als wat WECA nodig het
