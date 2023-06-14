@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
 import com.example.wildeyechatapp.R
 import com.example.wildeyechatapp.ui.theme.InputBorderColor
 import com.example.wildeyechatapp.ui.theme.InputFieldColor
@@ -61,18 +62,7 @@ fun ChatScreen(
 val allMessages = viewModel?.messageList?: listOf<Message>()
 var isChatIdNotBlank = chatId.isNullOrBlank()
 
-  val  currentUserFrom = "Shanre"
 
-val dummyData = listOf<Message>(
-    Message(fromUserId = "Shanre",from = "Shanre", message = " Your last message Your last message Your last message"),
-    Message(fromUserId = "Leo",from = "Leo", message = " Hi Daar"),
-    Message(fromUserId = "Shanre",from = "Shanre", message = " Hi"),
-    Message(fromUserId = "Leo",from = "Leo", message = " Hi Daar"),
-    Message(fromUserId = "Shanre",from = "Shanre", message = " Hi"),
-    Message(fromUserId = "Leo",from = "Leo", message = " Hi Daar"),
-    Message(fromUserId = "Shanre",from = "Shanre", message = " Hi"),
-    Message(fromUserId = "Leo",from = "Leo", message = " Hi Daar"),
-)
 
     LaunchedEffect(key1 = Unit){
         if (!isChatIdNotBlank){
@@ -140,9 +130,9 @@ fun MessageFromBubble(
     message: Message, modifier: Modifier = Modifier
 ){
 Row(modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.Bottom) {
-    Image(
+    AsyncImage(
 //        USER IMAGE
-        painter = painterResource(id = R.drawable.pfp),
+        model = message.fromUserProfilePic,
 
         contentDescription = null,
         modifier = modifier

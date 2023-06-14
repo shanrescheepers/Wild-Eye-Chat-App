@@ -63,6 +63,7 @@ class AuthViewModel(
                     authUiState.registerStandNumber,
                     authUiState.registerUsername,
                     authUiState.registerPassword,
+                    "https://firebasestorage.googleapis.com/v0/b/wild-eye-chat-app.appspot.com/o/default_profile.png?alt=media&token=5283c9b7-e4a9-4423-b8c0-59ba08f9e61f"
                 ){userId->
                     if (userId.isNotBlank()){
         FireStoreService().createUserInDatabase(uid =userId, email = authUiState.registerEmail,

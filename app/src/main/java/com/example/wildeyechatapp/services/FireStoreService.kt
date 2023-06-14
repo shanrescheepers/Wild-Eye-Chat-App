@@ -67,7 +67,7 @@ class FireStoreService {
             username=username,
             email=email,
             standNumber=standNumber,
-            profileImageUrl="",
+            profileImageUrl="https://firebasestorage.googleapis.com/v0/b/wild-eye-chat-app.appspot.com/o/default_profile.png?alt=media&token=5283c9b7-e4a9-4423-b8c0-59ba08f9e61f",
             token="")
         )
         .addOnSuccessListener {
@@ -79,6 +79,33 @@ class FireStoreService {
             onSuccess.invoke(false)
         }
     }
+    fun updateUserInDatabase(
+        uid: String,
+//        email: String,
+//        standNumber: String,
+        username: String,
+//        profileImageUrl: String,
+        onSuccess: (Boolean) -> Unit
+    ) {
+        val userUpdateData: MutableMap<String, Any?> = hashMapOf(
+            "username" to username,
+//            "email" to email,
+//            "standNumber" to standNumber,
+//            "profileImageUrl" to profileImageUrl,
+        )
+
+        db.collection("users").document(uid)
+            .update(userUpdateData as Map<String, Any>)
+            .addOnSuccessListener {
+                Log.d("USER: Update User In DB Successful", "YAY!")
+                onSuccess.invoke(true)
+            }
+            .addOnFailureListener {
+                Log.d("USER: Update User In DB Failed", it.localizedMessage)
+                onSuccess.invoke(false)
+            }
+    }
+
     suspend fun addNewMessage(
         newMessage : Message,
         chatId: String,

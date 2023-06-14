@@ -23,7 +23,7 @@ class AuthService {
     standNumber: String,
     name: String,
     password: String,
-
+    profileImageUrl: String,
     createdUserSuccessfully:(String)-> Unit
 
     )= withContext(Dispatchers.IO){

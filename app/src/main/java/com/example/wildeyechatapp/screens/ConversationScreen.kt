@@ -1,5 +1,6 @@
 package com.example.wildeyechatapp.screens
 import android.provider.Telephony.Sms.Conversations
+import android.util.Log
 import android.widget.HorizontalScrollView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
@@ -58,14 +59,18 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.wildeyechatapp.R.drawable.smalllogopng
 import com.example.wildeyechatapp.models.ConversationPeople
+import com.example.wildeyechatapp.models.User
+import com.example.wildeyechatapp.services.AuthService
 import com.example.wildeyechatapp.ui.theme.InputFieldColor
 import com.example.wildeyechatapp.ui.theme.backgroundColor
 import com.example.wildeyechatapp.viewModels.ConversationsViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun ConversationScreen(
@@ -77,6 +82,7 @@ fun ConversationScreen(
 
 ){
     val allConversations = viewModel?.convoList ?: listOf<ConversationPeople>()
+
 
 
 Column(
@@ -113,12 +119,18 @@ Column(
 //        )
 
 //        Profile Picture
-        Image(painter = painterResource(id = R.drawable.pfp),
+
+        AsyncImage(
+
+            model = viewModel.currentUserImage,
             contentDescription = null,
             modifier = Modifier
                 .width(80.dp)
                 .height(80.dp)
                 .padding(8.dp)
+                .clickable {
+                    onNavToProfile.invoke()
+                }
         )
     }
 
@@ -141,20 +153,20 @@ Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start,
     ){
-        Text(text = "Signed In User",
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp,
-            modifier = Modifier
-            .padding(horizontal = 10.dp)
-        )
+        viewModel.currentUser?.let {
+            Text(text = it.username,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                modifier = Modifier
+                .padding(horizontal = 10.dp)
+            )
+        }
     }
   Box(
       modifier
           .padding(5.dp)
           .background(backgroundColor)
-          .clickable {
-              onNavToProfile.invoke()
-          }){
+          ){
       Text(text = "Profile")
   }
 
