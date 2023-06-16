@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,8 +22,10 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -63,8 +67,12 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import coil.compose.AsyncImage
+import com.example.wildeyechatapp.ui.theme.BlackButton
+import com.example.wildeyechatapp.ui.theme.ButtonTextColor
+import com.example.wildeyechatapp.ui.theme.warningColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -136,7 +144,6 @@ fun ProfileScreen(
         Box(
             modifier
                 .padding(5.dp)
-                .background(backgroundColor)
                 .clickable {
                     navBack.invoke()
                 }){
@@ -152,98 +159,196 @@ fun ProfileScreen(
                     .padding(horizontal = 10.dp)
             )
 
+                viewModel.currentUser?.let {
+                    Text(text = it.username,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        modifier = Modifier
+                            .padding(horizontal = 10.dp)
+                    )
+                }
+
         }
+        Spacer(modifier = Modifier.height(16.dp))
 
 //Third Row
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start,
-        ){
-            viewModel.currentUser?.let {
-                Text(text = it.username,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
-                    modifier = Modifier
-                        .padding(horizontal = 10.dp)
-                )
-            }
-        }
-        OutlinedTextField(
-            value = newUsername.value,
-            onValueChange = { value -> newUsername.value = value },
-            shape = RoundedCornerShape(15.dp),
-            label = {
-                Text(
-                    text = "Edit username",
-                    color = LightGrey,
-                    style = TextStyle(textAlign = TextAlign.Left)
-                )
-            },
-            leadingIcon = {
-                Icon(
-                    modifier = Modifier.size(20.dp),
-                    imageVector = Icons.Default.Person,
-                    contentDescription = null
-                )
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
-                .height(50.dp),
-            textStyle = TextStyle(fontSize = 10.sp, color = BGcolor)
-        )
-        OutlinedTextField(
-            value = newStand.value,
-            onValueChange = { value -> newStand.value = value },
-            shape = RoundedCornerShape(15.dp),
-            label = {
-                Text(
-                    text = "Edit stand",
-                    color = LightGrey,
-                    style = TextStyle(textAlign = TextAlign.Left)
-                )
-            },
-            leadingIcon = {
-                Icon(
-                    modifier = Modifier.size(20.dp),
-                    imageVector = Icons.Default.Home,
-                    contentDescription = null
-                )
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
-                .height(50.dp),
-            textStyle = TextStyle(fontSize = 10.sp, color = BGcolor)
-        )
-//        OutlinedTextField(
-//            value = newEmail.value,
-//            onValueChange = { value -> newEmail.value = value },
-//            shape = RoundedCornerShape(15.dp),
-//            label = {
-//                Text(
-//                    text = "Edit email",
-//                    color = LightGrey,
-//                    style = TextStyle(textAlign = TextAlign.Left)
-//                )
-//            },
-//            leadingIcon = {
-//                Icon(
-//                    modifier = Modifier.size(20.dp),
-//                    imageVector = Icons.Default.Email,
-//                    contentDescription = null
-//                )
-//            },
-//            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
-//                .height(50.dp),
-//            textStyle = TextStyle(fontSize = 10.sp, color = BGcolor)
+//        Row(
+//            modifier = Modifier.fillMaxWidth(),
+//            horizontalArrangement = Arrangement.Start,
 //        )
+       Column(     modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+           ) {
+           val options = listOf(
+               "🐆" to "https://firebasestorage.googleapis.com/v0/b/wild-eye-chat-app.appspot.com/o/pfp_1.png?alt=media&token=f0aa2c7c-b4f3-44ce-8b10-4d1349e69646",
+               "🐾" to "https://firebasestorage.googleapis.com/v0/b/wild-eye-chat-app.appspot.com/o/pfp_2.png?alt=media&token=edef79b2-8ce0-479c-bee5-5ad5c6d9bd27",
+               "🦁" to "https://firebasestorage.googleapis.com/v0/b/wild-eye-chat-app.appspot.com/o/pfp_3.png?alt=media&token=87eaead0-669d-4879-8827-4b52aadfe834",
+               "🦒" to "https://firebasestorage.googleapis.com/v0/b/wild-eye-chat-app.appspot.com/o/pfp_4.png?alt=media&token=7f3a82ba-53ff-4bb2-b404-5a32e2db67be",
+               "🦅" to "https://firebasestorage.googleapis.com/v0/b/wild-eye-chat-app.appspot.com/o/pfp_5.png?alt=media&token=9da8a20d-1089-4977-ac1a-03177fe770dd")
+           var expanded by remember { mutableStateOf(false) }
+           var selectedOptionText by remember { mutableStateOf(options[0].first) }
+// We want to react on tap/press on TextField to show menu
+           ExposedDropdownMenuBox(
+               expanded = expanded,
+               onExpandedChange = { expanded = !expanded },
+           ) {
+               TextField(
+                   // The `menuAnchor` modifier must be passed to the text field for correctness.
+                   modifier = Modifier.menuAnchor(),
+                   readOnly = true,
+                   value = selectedOptionText,
+                   onValueChange = {},
+                   label = { Text("Select & change your Profile Icon") },
+                   trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                   colors = ExposedDropdownMenuDefaults.textFieldColors(),
+               )
+               ExposedDropdownMenu(
+                   expanded = expanded,
+                   onDismissRequest = { expanded = false },
+               ) {
+                   options.forEach { selectionOption ->
+                       DropdownMenuItem(
+                           text = { Row(){Text(selectionOption.first)
+                               AsyncImage(model = selectionOption.second, contentDescription = selectionOption.first)}},
+                           onClick = {
+                               selectedOptionText = selectionOption.first
+                               expanded = false
+                               newImage.value = selectionOption.second
+                           },
+                           contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                       )
+                   }
+               }
+           }
+           OutlinedTextField(
+               value = newUsername.value,
+               onValueChange = { value -> newUsername.value = value },
+               shape = RoundedCornerShape(15.dp),
+               label = {
+                   Text(
+                       text = "Edit username",
+                       color = LightGrey,
+                       style = TextStyle(textAlign = TextAlign.Left)
+                   )
+               },
+               leadingIcon = {
+                   Icon(
+                       modifier = Modifier.size(20.dp),
+                       imageVector = Icons.Default.Person,
+                       contentDescription = null
+                   )
+               },
+               keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+               modifier = Modifier
+                   .fillMaxWidth()
+                   .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
+                   .height(50.dp),
+               textStyle = TextStyle(fontSize = 10.sp, color = BGcolor)
+           )
+           OutlinedTextField(
+               value = newStand.value,
+               onValueChange = { value -> newStand.value = value },
+               shape = RoundedCornerShape(15.dp),
+               label = {
+                   Text(
+                       text = "Edit stand",
+                       color = LightGrey,
+                       style = TextStyle(textAlign = TextAlign.Left)
+                   )
+               },
+               leadingIcon = {
+                   Icon(
+                       modifier = Modifier.size(20.dp),
+                       imageVector = Icons.Default.Home,
+                       contentDescription = null
+                   )
+               },
+               keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+               modifier = Modifier
+                   .fillMaxWidth()
+                   .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
+                   .height(50.dp),
+               textStyle = TextStyle(fontSize = 10.sp, color = BGcolor)
+           )
+//        Current Email
+           OutlinedTextField(
+               value = newEmail.value,
+               onValueChange = { value -> newEmail.value = value },
+               shape = RoundedCornerShape(15.dp),
+               label = {
+                   Text(
+                       text = "Current Email",
+                       color = LightGrey,
+                       style = TextStyle(textAlign = TextAlign.Left)
+                   )
+               },
+               leadingIcon = {
+                   Icon(
+                       modifier = Modifier.size(20.dp),
+                       imageVector = Icons.Default.Email,
+                       contentDescription = null
+                   )
+               },
+               keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+               modifier = Modifier
+                   .fillMaxWidth()
+                   .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
+                   .height(50.dp),
+               textStyle = TextStyle(fontSize = 10.sp, color = BGcolor)
+           )
+//        NEW EMAIL
+           OutlinedTextField(
+               value = newEmail.value,
+               onValueChange = { value -> newEmail.value = value },
+               shape = RoundedCornerShape(15.dp),
+               label = {
+                   Text(
+                       text = "New Email",
+                       color = LightGrey,
+                       style = TextStyle(textAlign = TextAlign.Left)
+                   )
+               },
+               leadingIcon = {
+                   Icon(
+                       modifier = Modifier.size(20.dp),
+                       imageVector = Icons.Default.Email,
+                       contentDescription = null
+                   )
+               },
+               keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+               modifier = Modifier
+                   .fillMaxWidth()
+                   .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
+                   .height(50.dp),
+               textStyle = TextStyle(fontSize = 10.sp, color = BGcolor)
+           )
 
+//        Password
+           OutlinedTextField(
+               value = newEmail.value,
+               onValueChange = { value -> newEmail.value = value },
+               shape = RoundedCornerShape(15.dp),
+               label = {
+                   Text(
+                       text = "Password",
+                       color = LightGrey,
+                       style = TextStyle(textAlign = TextAlign.Left)
+                   )
+               },
+               leadingIcon = {
+                   Icon(
+                       modifier = Modifier.size(20.dp),
+                       imageVector = Icons.Default.Lock,
+                       contentDescription = null
+                   )
+               },
+               keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+               modifier = Modifier
+                   .fillMaxWidth()
+                   .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
+                   .height(50.dp),
+               textStyle = TextStyle(fontSize = 10.sp, color = BGcolor)
+           )
 // EMAIL
 
 
@@ -256,56 +361,21 @@ fun ProfileScreen(
 
 
 
-        val options = listOf(
-            "🐆" to "https://firebasestorage.googleapis.com/v0/b/wild-eye-chat-app.appspot.com/o/pfp_1.png?alt=media&token=f0aa2c7c-b4f3-44ce-8b10-4d1349e69646",
-            "🐾" to "https://firebasestorage.googleapis.com/v0/b/wild-eye-chat-app.appspot.com/o/pfp_2.png?alt=media&token=edef79b2-8ce0-479c-bee5-5ad5c6d9bd27",
-            "🦁" to "https://firebasestorage.googleapis.com/v0/b/wild-eye-chat-app.appspot.com/o/pfp_3.png?alt=media&token=87eaead0-669d-4879-8827-4b52aadfe834",
-            "🦒" to "https://firebasestorage.googleapis.com/v0/b/wild-eye-chat-app.appspot.com/o/pfp_4.png?alt=media&token=7f3a82ba-53ff-4bb2-b404-5a32e2db67be",
-            "🦅" to "https://firebasestorage.googleapis.com/v0/b/wild-eye-chat-app.appspot.com/o/pfp_5.png?alt=media&token=9da8a20d-1089-4977-ac1a-03177fe770dd")
-        var expanded by remember { mutableStateOf(false) }
-        var selectedOptionText by remember { mutableStateOf(options[0].first) }
-// We want to react on tap/press on TextField to show menu
-        ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = { expanded = !expanded },
-        ) {
-            TextField(
-                // The `menuAnchor` modifier must be passed to the text field for correctness.
-                modifier = Modifier.menuAnchor(),
-                readOnly = true,
-                value = selectedOptionText,
-                onValueChange = {},
-                label = { Text("Label") },
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                colors = ExposedDropdownMenuDefaults.textFieldColors(),
-            )
-            ExposedDropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false },
-            ) {
-                options.forEach { selectionOption ->
-                    DropdownMenuItem(
-                        text = { Row(){Text(selectionOption.first)
-                            AsyncImage(model = selectionOption.second, contentDescription = selectionOption.first)}},
-                        onClick = {
-                            selectedOptionText = selectionOption.first
-                            expanded = false
-                            newImage.value = selectionOption.second
-                        },
-                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
-                    )
-                }
-            }
-        }
+       }
+
         val context = LocalContext.current
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Button(onClick = {AuthService().signOutUser(); navOnLogOut.invoke()}) {
-                Text(text = "Logout", fontSize = 18.sp, color = BGcolor)
+            Button(onClick = {AuthService().signOutUser(); navOnLogOut.invoke()},
+                modifier = Modifier.padding(4.dp), colors = ButtonDefaults.buttonColors(BlackButton)) {
+                Text(text = "Logout", fontSize = 18.sp,
+                        modifier = Modifier.padding(8.dp), color = ButtonTextColor
+                )
             }
+            Spacer(modifier = Modifier.width(16.dp))
             Button(onClick = {
                 val uid = viewModel.currentUserId
                 if (newUsername.value.toString() != ""){
@@ -324,8 +394,9 @@ fun ProfileScreen(
 
                 }
 
-            }) {
-                Text(text = "Update", fontSize = 18.sp, color = BGcolor)
+            },
+                modifier = Modifier.padding(4.dp), colors = ButtonDefaults.buttonColors(warningColor)) {
+                Text(text = "Update", fontSize = 18.sp, color = Color.Black,modifier=Modifier.padding(8.dp))
             }
         }
 

@@ -80,11 +80,11 @@ import okhttp3.internal.wait
 fun ConversationScreen(
     onNavToProfile: () -> Unit,
     onNavToChat: (chatId: String) -> Unit,
+    modifier: Modifier = Modifier,
     viewModel: ConversationsViewModel = viewModel(),
-    modifier: Modifier = Modifier
 
-
-){
+    ){
+//    val currentUser: User? by viewModel.currentUser.observeAsState()
     val allConversations = viewModel?.convoList ?: listOf<ConversationPeople>()
     val userData = remember { mutableStateOf<UserDataClass?>(null) }
 //    val viewModel: ConversationsViewModel = viewModel()
@@ -131,19 +131,21 @@ Column(
 //        )
 
 //        Profile Picture
+        viewModel.currentUser?.let {
+            AsyncImage(
 
-        AsyncImage(
+                model = it.profileImageUrl,
+                contentDescription = null,
+                modifier = Modifier
+                    .width(80.dp)
+                    .height(80.dp)
+                    .padding(8.dp)
+                    .clickable {
+                        onNavToProfile.invoke()
+                    }
+            )
+        }
 
-            model = viewModel.getProfileImage(),
-            contentDescription = null,
-            modifier = Modifier
-                .width(80.dp)
-                .height(80.dp)
-                .padding(8.dp)
-                .clickable {
-                    onNavToProfile.invoke()
-                }
-        )
     }
 
     Spacer(modifier = Modifier.size(20.dp))
@@ -249,7 +251,8 @@ fun ConversationCard(
         Column(modifier = Modifier.padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ){
-
+            //Daar kom LinearCol
+            //Hier is die Foto!
             AsyncImage(model = ImageRequest.Builder(context = LocalContext.current)
                 .data(conversationPeople.image)
                 .crossfade(true).build()
