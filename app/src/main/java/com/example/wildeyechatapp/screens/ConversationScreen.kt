@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -30,6 +31,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -53,6 +55,7 @@ import com.example.wildeyechatapp.ui.theme.WildEyeChatAppTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -70,6 +73,8 @@ import com.example.wildeyechatapp.models.ConversationPeople
 import com.example.wildeyechatapp.models.User
 import com.example.wildeyechatapp.models.UserDataClass
 import com.example.wildeyechatapp.services.AuthService
+import com.example.wildeyechatapp.ui.theme.BGcolor
+import com.example.wildeyechatapp.ui.theme.InputBorderColor
 import com.example.wildeyechatapp.ui.theme.InputFieldColor
 import com.example.wildeyechatapp.ui.theme.backgroundColor
 import com.example.wildeyechatapp.viewModels.ConversationsViewModel
@@ -79,7 +84,7 @@ import okhttp3.internal.wait
 @Composable
 fun ConversationScreen(
     onNavToProfile: () -> Unit,
-    onNavToChat: (chatId: String) -> Unit,
+    onNavToChat: (chatId: String, chatName :String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ConversationsViewModel = viewModel(),
 
@@ -118,8 +123,6 @@ Column(
             modifier = Modifier
                 .width(100.dp)
                 .height(100.dp)
-
-
             )
         Spacer(modifier = Modifier.width(160.dp))
         
@@ -156,26 +159,44 @@ Column(
     ) {
         Text(text = "Welcome,",
             fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier
             .padding(horizontal = 10.dp)
         )
-
-    }
-
-//Third Row
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Start,
-    ){
         viewModel.currentUser?.let {
             Text(text = it.username,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
                 modifier = Modifier
-                .padding(horizontal = 10.dp)
+                    .padding(horizontal = 10.dp)
             )
         }
+
     }
+    Column( horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+       Row( modifier = Modifier
+           .padding(horizontal = 10.dp)) {
+           Text(text = "to the community hub for connecting with active eyed residents of Wild Rivers & fostering meaningful connections.",
+               fontSize = 14.sp,
+
+           )
+       }
+        Spacer(modifier = Modifier.size(10.dp))
+        Text(text = "YOUR GROUPS",
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .padding(horizontal = 10.dp)
+        )
+    }
+
+//Third Row
+//    Row(
+//        modifier = Modifier.fillMaxWidth(),
+//        horizontalArrangement = Arrangement.Start,
+//    ){
+//
+//    }
 //  Box(
 //      modifier
 //          .padding(5.dp)
@@ -187,12 +208,11 @@ Column(
 
     Spacer(modifier = Modifier.size(20.dp))
 
-LazyRow(){
+LazyColumn(){
     items(allConversations){
             conversation ->
        Card(   modifier = Modifier
-           .clickable { onNavToChat.invoke(conversation.id) },) {
-
+           .clickable { onNavToChat.invoke(conversation.id, conversation.title) },) {
             ConversationCard(
                 ConversationPeople(
                     title = conversation.title,
@@ -202,30 +222,7 @@ LazyRow(){
         }
     }
 }
-    Row(
-        Modifier
-            .horizontalScroll(rememberScrollState())
-            .fillMaxSize()
-            .height(100.dp)
-            .padding(horizontal = 10.dp),
-        horizontalArrangement = Arrangement.Start,
 
-    ) {
-//Column(Modifier.verticalScroll(rememberScrollState()))
-
-//        ConversationCard(ConversationPeople(
-//            name = "Shanre",
-//        ))
-//        ConversationCard(ConversationPeople(
-//            name = "Shanre",
-//        ))
-//        ConversationCard(ConversationPeople(
-//            name = "Shanre",
-//        ))
-//        ConversationCard(ConversationPeople(
-//            name = "Shanre",
-//        ))
-    }
 
 
 
@@ -239,43 +236,48 @@ fun ConversationCard(
     modifier: Modifier = Modifier) {
 
     Card(
-
+       colors = CardDefaults.cardColors(containerColor = InputBorderColor),
         modifier = Modifier
-            .padding(8.dp)
-            .width(100.dp)
             .height(100.dp)
-            .background(color = InputFieldColor),
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 8.dp).background(BGcolor)
+    ,
 
-
-        shape = RoundedCornerShape(80.dp),) {
-        Column(modifier = Modifier.padding(20.dp),
+       ) {
+        Column(modifier = Modifier.padding(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ){
             //Daar kom LinearCol
             //Hier is die Foto!
-            AsyncImage(model = ImageRequest.Builder(context = LocalContext.current)
-                .data(conversationPeople.image)
-                .crossfade(true).build()
-                ,
-                error= painterResource( R.drawable.ic_launcher_foreground),
+            Row() {
+                AsyncImage(model = ImageRequest.Builder(context = LocalContext.current)
+                    .data(conversationPeople.image)
+                    .crossfade(true).build()
+                    ,
+                    error= painterResource( R.drawable.ic_launcher_foreground),
 
-                contentDescription = conversationPeople.title,
+                    contentDescription = conversationPeople.title,
 
-placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
+//placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
 
-                modifier = Modifier
-                    .width(80.dp)
-                    .height(20.dp)
-                    .background(color = InputFieldColor),
-               alignment = Alignment.CenterStart,
-                contentScale = ContentScale.Crop
+                    modifier = Modifier
+                        .width(120.dp)
+                        .height(120.dp)
+                        .padding(1.dp),
+//                    .background(color = InputFieldColor),
+                    alignment = Alignment.CenterStart,
+                    contentScale = ContentScale.Fit
                 )
-            Text(
-                text= conversationPeople.title,
-                modifier = Modifier.padding(2.dp),
-                style = MaterialTheme.typography.bodySmall,
-                textAlign = TextAlign.Center
-            )
+                Spacer(modifier = Modifier.size(1.dp))
+                Text(
+                    text= conversationPeople.title,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 14.dp).width(900.dp),
+
+                    textAlign = TextAlign.Left
+                )
+            }
 
         }
 
@@ -288,7 +290,9 @@ placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
 @Composable
 fun PreviewConversationScreen(){
     WildEyeChatAppTheme {
-        ConversationScreen(onNavToProfile = {},onNavToChat = {})
+        ConversationScreen(onNavToProfile = {},onNavToChat = {conversationId, conversationTitle ->
+        // Handle navigation to chat using conversationId and conversationTitle
+    })
 //        ConversationScreen(onNavToChat = {})
     }
 }

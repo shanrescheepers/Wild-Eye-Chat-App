@@ -107,11 +107,11 @@ fun Navigation(
                         }
                 },
 //                click fun
-            onNavToChat = {
-                navController.navigate("${HomeRoutes.Chat.name}/${it}"){
-                    launchSingleTop = true
+                onNavToChat = { conversationId, chatName ->
+                    navController.navigate("${HomeRoutes.Chat.name}/$conversationId/$chatName") {
+                        launchSingleTop = true
+                    }
                 }
-            }
             )
         }
         composable(route = HomeRoutes.Profile.name){
@@ -132,10 +132,11 @@ fun Navigation(
             )
         }
 
-        composable(route = "${HomeRoutes.Chat.name}/{chatId}",
-            arguments = listOf(navArgument("chatId"){type = NavType.StringType; defaultValue = "chat1234"})
+        composable(route = "${HomeRoutes.Chat.name}/{chatId}/{chatName}",
+            arguments = listOf(navArgument("chatId"){type = NavType.StringType; defaultValue = "chat1234"},navArgument("chatName"){type = NavType.StringType; defaultValue = "group"})
             ){
-            ChatScreen(chatId =  it.arguments?.getString("chatId"))
+            ChatScreen(chatId =  it.arguments?.getString("chatId"), chatName = it.arguments?.getString("chatName")
+                .toString())
         }
 //        TODO: Create links to profile and chat screen(pass data
 //        Stup auth to prevent access to specific screens

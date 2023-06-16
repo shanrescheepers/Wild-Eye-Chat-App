@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.NavigateBefore
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -147,13 +148,16 @@ fun ProfileScreen(
 
       ) {
         Box(
-            modifier =Modifier
+            modifier = Modifier
                 .padding(5.dp)
                 .clickable {
                     navBack.invoke()
                 },
         ){
-            Text(text = "<- Back")
+           Row() {
+               Icon(imageVector = Icons.Default.NavigateBefore , contentDescription = "back nav",modifier = Modifier.size(24.dp).padding(4.dp))
+               Text(text ="Back")
+           }
         }
         Row(
             modifier = Modifier.fillMaxWidth(),

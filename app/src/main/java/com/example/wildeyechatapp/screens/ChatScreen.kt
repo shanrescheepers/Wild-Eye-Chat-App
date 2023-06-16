@@ -12,12 +12,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -46,6 +50,8 @@ import com.example.wildeyechatapp.ui.theme.WildEyeChatAppTheme
 import com.example.wildeyechatapp.viewModels.ConversationsViewModel
 import com.example.wildeyechatapp.models.Message
 import com.example.wildeyechatapp.ui.theme.BGcolor
+import com.example.wildeyechatapp.ui.theme.YourMessage
+import com.example.wildeyechatapp.ui.theme.backgroundColor
 import com.example.wildeyechatapp.viewModels.ChatViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,6 +59,7 @@ import com.example.wildeyechatapp.viewModels.ChatViewModel
 fun ChatScreen(
     viewModel: ChatViewModel = viewModel(),
     chatId : String?,
+    chatName: String,
     modifier: Modifier = Modifier
 ) {
     var newMessage by remember {
@@ -73,10 +80,10 @@ var isChatIdNotBlank = chatId.isNullOrBlank()
     }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize().background(InputFieldColor)
     ) {
         Text(
-            text = chatId ?: "",
+            text = chatName ?: "",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(20.dp)
@@ -104,20 +111,27 @@ var isChatIdNotBlank = chatId.isNullOrBlank()
         {
             OutlinedTextField(
                 value = newMessage,
+                shape = RoundedCornerShape(15.dp),
                 onValueChange = { newMessage = it},
                 label = { Text("New Message") }
             )
 
-            Spacer(modifier = modifier.size(8.dp))
 
             Button(
+                modifier = Modifier
+                    .width(100.dp)
+                    .height(100.dp),
+//                   .background(InputFieldColor)
+                colors = ButtonDefaults.buttonColors(containerColor = InputFieldColor),
+                        shape = RoundedCornerShape(15.dp),
+
                 onClick = {
-                          viewModel.sendNewMessage(newMessage, chatId?:"");
-                            newMessage = ""
+                    viewModel.sendNewMessage(newMessage, chatId ?: "");
+                    newMessage = ""
                 },
-                modifier = modifier.height(50.dp),
-            ) {
-                Icon(painter = painterResource(id = R.drawable.pfp), contentDescription = null)
+
+                ) {
+                Icon(Icons.Default.Send, contentDescription = null,   tint = Color.Black)
             }
 
         }
@@ -153,18 +167,20 @@ Row(modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.Bottom) {
             Text(
                 text = message.from,
                 fontWeight = FontWeight.Bold,
-                color = Color.White,
+                color = Color.Black,
                 modifier = modifier.padding(start = 10.dp, top = 10.dp)
             )
             Text(
                 text = message.message,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Light,
                 color = Color.White,
                 modifier = modifier.padding(start = 10.dp, top = 2.dp)
             )
             Text(
                 text = message.timestamp.toDate().toString(),
                 color = Color.LightGray,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Light,
                 modifier = modifier
                     .padding(all = 10.dp)
                     .align(Alignment.End)
@@ -179,28 +195,33 @@ fun MessageToBubble(
     message: Message, modifier: Modifier = Modifier
 ){
     Row(modifier = Modifier.padding(8.dp), verticalAlignment = Alignment.Bottom) {
-
-
         Column(modifier = modifier.padding(start = 16.dp, end = 8.dp)) {
             Column(
                 modifier = modifier
                     .fillMaxWidth()
                     .background(
-                        BGcolor, shape = RoundedCornerShape(
+                        YourMessage, shape = RoundedCornerShape(
                             topStart = 15.dp, topEnd = 15.dp, bottomStart = 15.dp
                         )
                     )
             ) {
-
+                Text(
+                    text = "You",
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                    modifier = modifier.padding(start = 10.dp, top = 10.dp)
+                )
                 Text(
                     text = message.message,
                     fontWeight = FontWeight.Bold,
-                    color = Color.Black,
+                    color = Color.White,
                     modifier = modifier.padding(start = 10.dp, top = 2.dp)
                 )
                 Text(
                     text = message.timestamp.toDate().toString(),
-                    color = Color.Gray,
+                    color = Color.LightGray,
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Light,
                     modifier = modifier
                         .padding(all = 10.dp)
                         .align(Alignment.End)
@@ -228,7 +249,7 @@ fun prevChatScreen() {
 //        RegisterScreen()
 //       Navigation()
 //        LoginScreen()
-        ChatScreen(chatId = "chat1234")
+        ChatScreen(chatId = "chat1234", chatName = "Test")
 
     }
 }

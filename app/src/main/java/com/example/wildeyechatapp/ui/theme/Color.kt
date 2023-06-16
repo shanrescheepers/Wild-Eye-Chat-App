@@ -3,6 +3,7 @@ import androidx.compose.ui.graphics.Color
 
 val BGcolor = Color(0xFFE8E2D6)
 val InputBorderColor = Color(0xFFB0977E)
+val YourMessage = Color( 0xFFC3B9AB)
 val warningColor = Color(0xFFDA8E2E)
 val backgroundColor=  Color(0xFFBDA689)
 val InputFieldColor = Color(0xFFE8E2D6)
