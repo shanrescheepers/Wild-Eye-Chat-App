@@ -188,7 +188,7 @@ fun ProfileScreen(
 
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "NOTE: If you select a Profile Icon, please re-enter your username & stand number",
+        Text(text = "NOTE: If you select a Profile Icon, please fill in all the fields below for verification reasons",
             fontSize = 13.sp, color = Color.Black,modifier=Modifier.padding(8.dp),style = TextStyle(
                 textAlign = TextAlign.Center
             ))
@@ -262,7 +262,7 @@ fun ProfileScreen(
                label = {
                    Text(
                        text = "Re-enter username",
-                       color = LightGrey,
+                       color = Color.Black,
                        style = TextStyle(textAlign = TextAlign.Left)
                    )
                },
@@ -278,7 +278,7 @@ fun ProfileScreen(
                    .fillMaxWidth()
                    .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
                    .height(50.dp),
-               textStyle = TextStyle(fontSize = 10.sp, color = BGcolor)
+               textStyle = TextStyle(fontSize = 10.sp, color = Color.Black)
            )
            OutlinedTextField(
                value = newStand.value,
@@ -287,7 +287,7 @@ fun ProfileScreen(
                label = {
                    Text(
                        text = "Re-enter stand number",
-                       color = LightGrey,
+                       color = Color.Black,
                        style = TextStyle(textAlign = TextAlign.Left)
                    )
                },
@@ -303,46 +303,21 @@ fun ProfileScreen(
                    .fillMaxWidth()
                    .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
                    .height(50.dp),
-               textStyle = TextStyle(fontSize = 10.sp, color = BGcolor)
+               textStyle = TextStyle(fontSize = 10.sp, color = Color.Black)
            )
 //        Current Email
-           Text(text = "NOTE: If you edit your email, please fill in all the fields below",
-               fontSize = 13.sp, color = Color.Black,modifier=Modifier.padding(8.dp),style = TextStyle(
-                   textAlign = TextAlign.Center
-               ))
-//           OutlinedTextField(
-//               value = currentEmail.value,
-//               onValueChange = { value -> currentEmail.value = value },
-//               shape = RoundedCornerShape(15.dp),
-//               label = {
-//                   Text(
-//                       text = "Current Email",
-//                       color = LightGrey,
-//                       style = TextStyle(textAlign = TextAlign.Left)
-//                   )
-//               },
-//               leadingIcon = {
-//                   Icon(
-//                       modifier = Modifier.size(20.dp),
-//                       imageVector = Icons.Default.Email,
-//                       contentDescription = null
-//                   )
-//               },
-//               keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-//               modifier = Modifier
-//                   .fillMaxWidth()
-//                   .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
-//                   .height(50.dp),
-//               textStyle = TextStyle(fontSize = 10.sp, color = BGcolor)
-//           )
-//        NEW EMAIL
+//           Text(text = "NOTE: If you edit your email, please fill in all the fields below",
+//               fontSize = 13.sp, color = Color.Black,
+//               modifier=Modifier.padding(8.dp),style = TextStyle(
+//                   textAlign = TextAlign.Center
+//               ))
            OutlinedTextField(
-               value = newEmail.value,
-               onValueChange = { value -> newEmail.value = value },
+               value = currentEmail.value,
+               onValueChange = { value -> currentEmail.value = value },
                shape = RoundedCornerShape(15.dp),
                label = {
                    Text(
-                       text = "New Email",
+                       text = "Current Email",
                        color = LightGrey,
                        style = TextStyle(textAlign = TextAlign.Left)
                    )
@@ -361,6 +336,32 @@ fun ProfileScreen(
                    .height(50.dp),
                textStyle = TextStyle(fontSize = 10.sp, color = BGcolor)
            )
+//        NEW EMAIL
+           OutlinedTextField(
+               value = newEmail.value,
+               onValueChange = { value -> newEmail.value = value },
+               shape = RoundedCornerShape(15.dp),
+               label = {
+                   Text(
+                       text = "New Email",
+                       color = Color.Black,
+                       style = TextStyle(textAlign = TextAlign.Left)
+                   )
+               },
+               leadingIcon = {
+                   Icon(
+                       modifier = Modifier.size(20.dp),
+                       imageVector = Icons.Default.Email,
+                       contentDescription = null
+                   )
+               },
+               keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+               modifier = Modifier
+                   .fillMaxWidth()
+                   .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
+                   .height(50.dp),
+               textStyle = TextStyle(fontSize = 10.sp, color = Color.Black)
+           )
 
 //        Password
            OutlinedTextField(
@@ -370,7 +371,7 @@ fun ProfileScreen(
                label = {
                    Text(
                        text = "Password",
-                       color = LightGrey,
+                       color = Color.Black,
                        style = TextStyle(textAlign = TextAlign.Left)
                    )
                },
@@ -386,7 +387,7 @@ fun ProfileScreen(
                    .fillMaxWidth()
                    .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
                    .height(50.dp),
-               textStyle = TextStyle(fontSize = 10.sp, color = BGcolor)
+               textStyle = TextStyle(fontSize = 10.sp, color = Color.Black)
            )
 // EMAIL
 
@@ -423,7 +424,7 @@ fun ProfileScreen(
                     Toast.makeText(context, "You cannot UPDATE if you haven't entered any field to update. Try Again", Toast.LENGTH_SHORT)
                         .show()
                 }else{
-                    if (newUsername.value.toString() != "" && newImage.value.toString() =="" && newStand.value.toString() == ""){
+                    if (newUsername.value.toString() != "" && newImage.value.toString() !="" && newStand.value.toString() != ""){
                         viewModel.updateUser(uid, newUsername.value.toString(), newImage.value.toString(), newEmail.value.toString(), newStand.value.toString()) { success ->
                             if (success) {
                                 Toast.makeText(context, "Profile update", Toast.LENGTH_SHORT).show()
@@ -435,13 +436,13 @@ fun ProfileScreen(
                             }
                         }
                     } else{
-                        Toast.makeText(context, "Fill all of the fields", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Please fill all of the fields", Toast.LENGTH_SHORT).show()
 
                     }
                     if (newEmail.value.toString() != "") {
                         viewModel.updateEmail(
                             currentEmail.value.toString(),
-                            viewModel.currentUser?.email.toString(),
+                            currentPassword.value.toString(),
                             newEmail.value.toString()
                         ) {success ->
                             if (success) {
@@ -461,9 +462,6 @@ fun ProfileScreen(
                         navBack.invoke()
                     }
 
-                    else{
-                        Toast.makeText(context, "Fill all of the fields", Toast.LENGTH_SHORT).show()
-                    }
 
 
                 }

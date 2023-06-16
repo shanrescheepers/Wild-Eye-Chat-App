@@ -110,6 +110,8 @@ var isChatIdNotBlank = chatId.isNullOrBlank()
         )
         {
             OutlinedTextField(
+                modifier = modifier
+                    .width(220.dp),
                 value = newMessage,
                 shape = RoundedCornerShape(15.dp),
                 onValueChange = { newMessage = it},
