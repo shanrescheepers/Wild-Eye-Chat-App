@@ -10,7 +10,9 @@ import com.example.wildeyechatapp.services.FireStoreService
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(
-    private val service: FireStoreService = FireStoreService()
+    private val service: FireStoreService = FireStoreService(),
+    private val authService: AuthService = AuthService()
+
 
 ):ViewModel() {
 
@@ -37,14 +39,25 @@ class ProfileViewModel(
         uid: String,
         username: String,
         image: String,
-//        email: String,
+        email: String,
         stand: String,
 
         onSuccess: (Boolean) -> Unit
     ) {
         // Call the function from the previous code snippet
         // add email
-        service.updateUserInDatabase(uid, username, image, stand, onSuccess)
+        service.updateUserInDatabase(uid, username, image, email, stand, onSuccess)
+    }
+
+    fun updateEmail(
+        currentEmail: String,
+        currentPassword: String,
+        newEmail: String,
+        onSuccess: (Boolean) -> Unit
+    ) {
+        // Call the function from the previous code snippet
+        // add email
+        authService.changeUserEmail(currentEmail, currentPassword, newEmail, onSuccess)
     }
 
 }

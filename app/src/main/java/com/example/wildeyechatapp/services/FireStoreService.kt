@@ -83,13 +83,13 @@ class FireStoreService {
         uid: String,
         username: String,
         profileImageUrl: String,
-//        email: String,
+        email: String,
         standNumber: String,
         onSuccess: (Boolean) -> Unit
     ) {
         val userUpdateData: MutableMap<String, Any?> = hashMapOf(
             "username" to username,
-//            "email" to email,
+            "email" to email,
             "standNumber" to standNumber,
             "profileImageUrl" to profileImageUrl,
         )

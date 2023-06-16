@@ -90,6 +90,8 @@ fun ProfileScreen(
     val newUsername = remember{ mutableStateOf("") }
     val newStand = remember{ mutableStateOf("") }
     val newEmail = remember{ mutableStateOf("") }
+    val currentEmail = remember{ mutableStateOf("") }
+    val currentPassword = remember{ mutableStateOf("") }
     val newImage = remember{ mutableStateOf("Option 1") }
 
 //    LaunchedEffect(Unit){
@@ -272,8 +274,8 @@ fun ProfileScreen(
            )
 //        Current Email
            OutlinedTextField(
-               value = newEmail.value,
-               onValueChange = { value -> newEmail.value = value },
+               value = currentEmail.value,
+               onValueChange = { value -> currentEmail.value = value },
                shape = RoundedCornerShape(15.dp),
                label = {
                    Text(
@@ -325,8 +327,8 @@ fun ProfileScreen(
 
 //        Password
            OutlinedTextField(
-               value = newEmail.value,
-               onValueChange = { value -> newEmail.value = value },
+               value = currentPassword.value,
+               onValueChange = { value -> currentPassword.value = value },
                shape = RoundedCornerShape(15.dp),
                label = {
                    Text(
@@ -379,7 +381,7 @@ fun ProfileScreen(
             Button(onClick = {
                 val uid = viewModel.currentUserId
                 if (newUsername.value.toString() != ""){
-                    viewModel.updateUser(uid, newUsername.value.toString(), newImage.value.toString(), newStand.value.toString()) { success ->
+                    viewModel.updateUser(uid, newUsername.value.toString(), newImage.value.toString(), newEmail.value.toString(), newStand.value.toString()) { success ->
                         if (success) {
                             Toast.makeText(context, "Profile update", Toast.LENGTH_SHORT).show()
 //                            navigation.goBack()
@@ -389,6 +391,28 @@ fun ProfileScreen(
                             Toast.makeText(context, "Profile failed to update", Toast.LENGTH_SHORT).show()
                         }
                     }
+                    if (newEmail.value.toString() != "") {
+                        viewModel.updateEmail(
+                            currentEmail.value.toString(),
+                            currentPassword.value.toString(),
+                            newEmail.value.toString()
+                        ) {success ->
+                            if (success) {
+                                Toast.makeText(context, "Profile Email update", Toast.LENGTH_SHORT)
+                                    .show()
+//                            navigation.goBack()
+                                // Update successful, handle the desired action
+                            } else {
+                                // Update failed, handle the error
+                                Toast.makeText(
+                                    context,
+                                    "Profile Email failed to update",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+                    navBack.invoke()
                 } else{
                     Toast.makeText(context, "Fill all of the fields", Toast.LENGTH_SHORT).show()
 

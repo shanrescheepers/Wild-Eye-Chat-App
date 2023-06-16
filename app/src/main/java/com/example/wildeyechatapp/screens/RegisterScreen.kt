@@ -21,6 +21,8 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -57,9 +59,12 @@ import com.example.wildeyechatapp.ui.theme.LightGrey
 import com.example.wildeyechatapp.ui.theme.TitleColor
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import com.example.wildeyechatapp.ui.theme.BGcolor
 import com.example.wildeyechatapp.ui.theme.warningColor
 import com.example.wildeyechatapp.viewModels.AuthUiState
@@ -77,6 +82,11 @@ fun RegisterScreen(
    val authUiState :AuthUiState? = authViewModel?.authUiState
     val context = LocalContext.current
     val error = authUiState?.errorMessage != null
+
+    var passwordVisible by remember { mutableStateOf(false) }
+    val passwordVisualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation()
+
+
 //state variables
 //    var name by remember { mutableStateOf("") }
 //    var email by remember { mutableStateOf("") }
@@ -176,24 +186,62 @@ fun RegisterScreen(
                  .height(50.dp),
              textStyle = TextStyle(fontSize = 10.sp, color = BGcolor))
 //PASSWORD
-         OutlinedTextField(
-             value = authUiState?.registerPassword ?: "",
-             onValueChange = { authViewModel?.handleInputStateChanges("registerPassword", it)},
-             shape = RoundedCornerShape(15.dp),
-             label = {Text(text="Password",
-                 color = LightGrey,
-                 style = TextStyle(textAlign = TextAlign.End))},
-             leadingIcon = {
-                 Icon(modifier = Modifier.size(20.dp),
-                     imageVector = Icons.Default.Lock,
-                     contentDescription = null) },
-             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-             modifier = Modifier
-                 .fillMaxWidth()
-                 .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
-//                                .padding(10.dp)
-                 .height(50.dp),
-             textStyle = TextStyle(fontSize = 10.sp, color = BGcolor))
+//         OutlinedTextField(
+//             value = authUiState?.registerPassword ?: "",
+//             onValueChange = { authViewModel?.handleInputStateChanges("registerPassword", it)},
+//             shape = RoundedCornerShape(15.dp),
+//             label = {Text(text="Password",
+//                 color = LightGrey,
+//                 style = TextStyle(textAlign = TextAlign.End))},
+//             leadingIcon = {
+//                 Icon(modifier = Modifier.size(20.dp),
+//                     imageVector = Icons.Default.Lock,
+//                     contentDescription = null) },
+//             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+//             modifier = Modifier
+//                 .fillMaxWidth()
+//                 .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
+////                                .padding(10.dp)
+//                 .height(50.dp),
+//             textStyle = TextStyle(fontSize = 10.sp, color = BGcolor))
+          OutlinedTextField(
+              value = authUiState?.registerPassword ?: "",
+              onValueChange = { authViewModel?.handleInputStateChanges("registerPassword", it) },
+              shape = RoundedCornerShape(15.dp),
+              label = {
+                  Text(
+                      text = "Password",
+                      color = LightGrey,
+                      style = TextStyle(textAlign = TextAlign.End)
+                  )
+              },
+              leadingIcon = {
+                  Icon(
+                      modifier = Modifier.size(20.dp),
+                      imageVector = Icons.Default.Lock,
+                      contentDescription = null
+                  )
+              },
+              keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+              modifier = Modifier
+                  .fillMaxWidth()
+                  .padding(horizontal = 4.dp, vertical = 4.dp)
+                  .height(50.dp),
+              textStyle = TextStyle(fontSize = 10.sp, color = BGcolor),
+              visualTransformation = passwordVisualTransformation,
+              trailingIcon = {
+                  IconButton(
+                      onClick = { passwordVisible = !passwordVisible },
+                  ) {
+                      Icon(
+                          imageVector = if (passwordVisible) Icons.Outlined.Visibility
+                          else Icons.Outlined.VisibilityOff,
+                          contentDescription = "Toggle password visibility"
+                      )
+                  }
+              }
+          )
+
      }
         Spacer(modifier = Modifier.size(20.dp))
         Button(
