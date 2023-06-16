@@ -2,7 +2,7 @@
 ## Wild Eye Chat App Android Extended 2023
 ## Project Owner :  Shanré Scheepers
 
-[Wild Eyes of Wild Rivers](https://github.com/shanrescheepers/Wild-Eye-Chat-App/blob/master/app/src/main/res/drawable/readmelogo.png)
+![Logo](https://github.com/shanrescheepers/Wild-Eye-Chat-App/blob/master/app/src/main/res/drawable/readmelogo.png)
 
 ##  Docs
 
