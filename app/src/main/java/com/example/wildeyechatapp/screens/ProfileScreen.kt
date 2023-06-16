@@ -67,6 +67,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import coil.compose.AsyncImage
@@ -84,8 +85,8 @@ fun ProfileScreen(
     navOnLogOut: () -> Unit,
     navBack: ()-> Unit,
     modifier: Modifier = Modifier) {
-//@Composable
-//fun ProfileScreen() {
+
+
     val currentUsername = remember { mutableStateOf("") }
     val newUsername = remember{ mutableStateOf("") }
     val newStand = remember{ mutableStateOf("") }
@@ -142,23 +143,30 @@ fun ProfileScreen(
 //        }
 //    }
 //}
-    Column() {
+    Column(modifier = Modifier.fillMaxWidth(),
+
+      ) {
         Box(
-            modifier
+            modifier =Modifier
                 .padding(5.dp)
                 .clickable {
                     navBack.invoke()
-                }){
+                },
+        ){
             Text(text = "<- Back")
         }
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(text = "Welcome,",
                 fontSize = 20.sp,
                 modifier = Modifier
-                    .padding(horizontal = 10.dp)
+                    .padding(horizontal = 10.dp),
+                style = TextStyle(
+                    textAlign = TextAlign.Center
+                )
             )
 
                 viewModel.currentUser?.let {
@@ -167,12 +175,19 @@ fun ProfileScreen(
                         fontSize = 20.sp,
                         modifier = Modifier
                             .padding(horizontal = 10.dp)
+                    ,style = TextStyle(
+                            textAlign = TextAlign.Center
+                        )
+
                     )
                 }
 
         }
         Spacer(modifier = Modifier.height(16.dp))
-
+        Text(text = "NOTE: If you select a Profile Icon, please re-enter your username & stand number",
+            fontSize = 13.sp, color = Color.Black,modifier=Modifier.padding(8.dp),style = TextStyle(
+                textAlign = TextAlign.Center
+            ))
 //Third Row
 //        Row(
 //            modifier = Modifier.fillMaxWidth(),
@@ -190,35 +205,49 @@ fun ProfileScreen(
            var expanded by remember { mutableStateOf(false) }
            var selectedOptionText by remember { mutableStateOf(options[0].first) }
 // We want to react on tap/press on TextField to show menu
-           ExposedDropdownMenuBox(
-               expanded = expanded,
-               onExpandedChange = { expanded = !expanded },
+           Box(
+               modifier = Modifier
+                   .clip(RoundedCornerShape(8.dp))
+                   .background(Color.White)
            ) {
-               TextField(
-                   // The `menuAnchor` modifier must be passed to the text field for correctness.
-                   modifier = Modifier.menuAnchor(),
-                   readOnly = true,
-                   value = selectedOptionText,
-                   onValueChange = {},
-                   label = { Text("Select & change your Profile Icon") },
-                   trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                   colors = ExposedDropdownMenuDefaults.textFieldColors(),
-               )
-               ExposedDropdownMenu(
+               ExposedDropdownMenuBox(
                    expanded = expanded,
-                   onDismissRequest = { expanded = false },
-               ) {
-                   options.forEach { selectionOption ->
-                       DropdownMenuItem(
-                           text = { Row(){Text(selectionOption.first)
-                               AsyncImage(model = selectionOption.second, contentDescription = selectionOption.first)}},
-                           onClick = {
-                               selectedOptionText = selectionOption.first
-                               expanded = false
-                               newImage.value = selectionOption.second
-                           },
-                           contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
-                       )
+                   onExpandedChange = { expanded = !expanded },
+
+                   ) {
+                   TextField(
+                       // The `menuAnchor` modifier must be passed to the text field for correctness.
+                       modifier = Modifier.menuAnchor(),
+                       readOnly = true,
+                       value = selectedOptionText,
+                       onValueChange = {},
+                       label = { Text("Select/change Profile Icon") },
+                       trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                       colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                   )
+                   ExposedDropdownMenu(
+                       expanded = expanded,
+                       onDismissRequest = { expanded = false },
+                   ) {
+                       options.forEach { selectionOption ->
+                           DropdownMenuItem(
+                               text = {
+                                   Row() {
+                                       Text(selectionOption.first)
+                                       AsyncImage(
+                                           model = selectionOption.second,
+                                           contentDescription = selectionOption.first
+                                       )
+                                   }
+                               },
+                               onClick = {
+                                   selectedOptionText = selectionOption.first
+                                   expanded = false
+                                   newImage.value = selectionOption.second
+                               },
+                               contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                           )
+                       }
                    }
                }
            }
@@ -228,7 +257,7 @@ fun ProfileScreen(
                shape = RoundedCornerShape(15.dp),
                label = {
                    Text(
-                       text = "Edit username",
+                       text = "Re-enter username",
                        color = LightGrey,
                        style = TextStyle(textAlign = TextAlign.Left)
                    )
@@ -253,7 +282,7 @@ fun ProfileScreen(
                shape = RoundedCornerShape(15.dp),
                label = {
                    Text(
-                       text = "Edit stand",
+                       text = "Re-enter stand number",
                        color = LightGrey,
                        style = TextStyle(textAlign = TextAlign.Left)
                    )
@@ -273,31 +302,35 @@ fun ProfileScreen(
                textStyle = TextStyle(fontSize = 10.sp, color = BGcolor)
            )
 //        Current Email
-           OutlinedTextField(
-               value = currentEmail.value,
-               onValueChange = { value -> currentEmail.value = value },
-               shape = RoundedCornerShape(15.dp),
-               label = {
-                   Text(
-                       text = "Current Email",
-                       color = LightGrey,
-                       style = TextStyle(textAlign = TextAlign.Left)
-                   )
-               },
-               leadingIcon = {
-                   Icon(
-                       modifier = Modifier.size(20.dp),
-                       imageVector = Icons.Default.Email,
-                       contentDescription = null
-                   )
-               },
-               keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-               modifier = Modifier
-                   .fillMaxWidth()
-                   .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
-                   .height(50.dp),
-               textStyle = TextStyle(fontSize = 10.sp, color = BGcolor)
-           )
+           Text(text = "NOTE: If you edit your email, please fill in all the fields below",
+               fontSize = 13.sp, color = Color.Black,modifier=Modifier.padding(8.dp),style = TextStyle(
+                   textAlign = TextAlign.Center
+               ))
+//           OutlinedTextField(
+//               value = currentEmail.value,
+//               onValueChange = { value -> currentEmail.value = value },
+//               shape = RoundedCornerShape(15.dp),
+//               label = {
+//                   Text(
+//                       text = "Current Email",
+//                       color = LightGrey,
+//                       style = TextStyle(textAlign = TextAlign.Left)
+//                   )
+//               },
+//               leadingIcon = {
+//                   Icon(
+//                       modifier = Modifier.size(20.dp),
+//                       imageVector = Icons.Default.Email,
+//                       contentDescription = null
+//                   )
+//               },
+//               keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+//               modifier = Modifier
+//                   .fillMaxWidth()
+//                   .padding(horizontal = 4.dp, vertical = 4.dp) // Add padding here
+//                   .height(50.dp),
+//               textStyle = TextStyle(fontSize = 10.sp, color = BGcolor)
+//           )
 //        NEW EMAIL
            OutlinedTextField(
                value = newEmail.value,
@@ -364,7 +397,8 @@ fun ProfileScreen(
 
 
        }
-
+        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         val context = LocalContext.current
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -380,21 +414,30 @@ fun ProfileScreen(
             Spacer(modifier = Modifier.width(16.dp))
             Button(onClick = {
                 val uid = viewModel.currentUserId
-                if (newUsername.value.toString() != ""){
-                    viewModel.updateUser(uid, newUsername.value.toString(), newImage.value.toString(), newEmail.value.toString(), newStand.value.toString()) { success ->
-                        if (success) {
-                            Toast.makeText(context, "Profile update", Toast.LENGTH_SHORT).show()
+                if(newUsername.value.toString() == "" &&  currentEmail.value.toString() == "" &&
+                    newImage.value.toString() == "" && newStand.value.toString() == "" && currentPassword.value.toString() == ""){
+                    Toast.makeText(context, "You cannot UPDATE if you haven't entered any field to update. Try Again", Toast.LENGTH_SHORT)
+                        .show()
+                }else{
+                    if (newUsername.value.toString() != "" && newImage.value.toString() =="" && newStand.value.toString() == ""){
+                        viewModel.updateUser(uid, newUsername.value.toString(), newImage.value.toString(), newEmail.value.toString(), newStand.value.toString()) { success ->
+                            if (success) {
+                                Toast.makeText(context, "Profile update", Toast.LENGTH_SHORT).show()
 //                            navigation.goBack()
-                            // Update successful, handle the desired action
-                        } else {
-                            // Update failed, handle the error
-                            Toast.makeText(context, "Profile failed to update", Toast.LENGTH_SHORT).show()
+                                // Update successful, handle the desired action
+                            } else {
+                                // Update failed, handle the error
+                                Toast.makeText(context, "Profile failed to update", Toast.LENGTH_SHORT).show()
+                            }
                         }
+                    } else{
+                        Toast.makeText(context, "Fill all of the fields", Toast.LENGTH_SHORT).show()
+
                     }
                     if (newEmail.value.toString() != "") {
                         viewModel.updateEmail(
                             currentEmail.value.toString(),
-                            currentPassword.value.toString(),
+                            viewModel.currentUser?.email.toString(),
                             newEmail.value.toString()
                         ) {success ->
                             if (success) {
@@ -411,12 +454,17 @@ fun ProfileScreen(
                                 ).show()
                             }
                         }
+                        navBack.invoke()
                     }
-                    navBack.invoke()
-                } else{
-                    Toast.makeText(context, "Fill all of the fields", Toast.LENGTH_SHORT).show()
+
+                    else{
+                        Toast.makeText(context, "Fill all of the fields", Toast.LENGTH_SHORT).show()
+                    }
+
 
                 }
+
+
 
             },
                 modifier = Modifier.padding(4.dp), colors = ButtonDefaults.buttonColors(warningColor)) {

@@ -2,6 +2,9 @@ package com.example.wildeyechatapp.viewModels
 
 import android.util.Log
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.wildeyechatapp.models.User
@@ -18,7 +21,9 @@ class ProfileViewModel(
 
 
 
-    var currentUser : User? = null
+//    var currentUser : User? = null
+    var currentUser: User? by mutableStateOf(null)
+
     var currentUserId = ""
 
     init {
